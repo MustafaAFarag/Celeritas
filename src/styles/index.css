@@ -10,7 +10,7 @@
     url('/fonts/Poppins-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
-  font-display: swap; /* Allows fallback text while the font loads */
+  font-display: swap;
 }
 
 @font-face {
@@ -58,4 +58,12 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   font-size: 1.6rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: all;
+  transition-duration: 300;
+}
+
+li {
+  list-style-type: none;
 }
