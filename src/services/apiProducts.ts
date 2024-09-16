@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-interface Product {
+export type Product = {
   id: number;
-  name: string;
-  price: number;
-  category: string;
+  title: string;
   description: string;
-  imageUrl: string;
-}
+  category: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  imageUrl?: string;
+};
 
 export async function fetchProducts(): Promise<Product[]> {
   const response = await axios.get('https://dummyjson.com/products?limit=500');
