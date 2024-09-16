@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { getCurrentUser, login } from '../services/apiAuth';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../features/authentication/useUser';
+import { useNavigate, Link } from 'react-router-dom';
+import { FormEvent } from 'react';
 
 function LoginForm() {
-  const { user } = useUser();
-  console.log(user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -36,7 +34,7 @@ function LoginForm() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -47,42 +45,59 @@ function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-sm mx-auto bg-white p-8 shadow-md rounded-md"
-    >
-      <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-      <div className="mb-6">
-        <label htmlFor="password" className="block text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <h2 className="text-center text-4xl font-extrabold text-gray-900">
+        Login
+      </h2>
+      <p className="text-center text-lg text-gray-500">
+        Please enter your credentials to log in
+      </p>
+      <div className="space-y-4">
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-xl font-medium text-gray-700"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="block text-xl font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
       <button
         type="submit"
         disabled={isPending}
-        className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+        className="w-full rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 font-semibold text-white transition hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
       >
-        {isPending ? 'Loading...' : 'Login'}
+        {isPending ? 'Logging in...' : 'Login'}
       </button>
+
+      <Link
+        to="/signup"
+        className="mt-4 block text-center text-lg text-blue-600 hover:underline"
+      >
+        Don't have an account? <span className="font-bold">SignUp!</span>
+      </Link>
     </form>
   );
 }

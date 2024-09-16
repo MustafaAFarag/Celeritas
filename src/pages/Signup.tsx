@@ -1,16 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import SignupForm from '../ui/SignupForm';
 
 function Signup() {
-  const navigate = useNavigate();
-
-  const handleSignupSuccess = () => {
-    navigate('/');
-  };
-
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <SignupForm onSuccess={handleSignupSuccess} />
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
+      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-200">
+        <SignupForm />
+      </div>
     </div>
   );
 }

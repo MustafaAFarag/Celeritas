@@ -12,5 +12,5 @@ export function useUser() {
     retry: false,
   });
 
-  return { user, isLoading, error, isAuthenticated: !!user };
+  return { user, isLoading, error };
 }
