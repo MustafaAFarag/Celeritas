@@ -17,7 +17,7 @@ function ProductsUnder({ products }: ProductsUnderProps) {
         products.filter((product) => product.price < 50 && product.price > 15)
       }
       linkTo="/signup"
-      bgColor="bg-green-200"
+      bgColor="bg-product-background"
     />
   );
 }

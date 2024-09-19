@@ -5,10 +5,15 @@
 
 :root {
   --background: #f5f5f5;
+  --nochange-text: #000;
+  --nochange-background: #e0e0e0;
   --text: #333333;
   --primary: #1a73e8;
   --secondary: #fbbc05;
   --header-background: #ebebeb;
+  --product-background: #85f17b;
+  --discount-background: #f37a7a;
+  --rating-backgorund: #f2f564;
 }
 
 .dark {
@@ -17,6 +22,9 @@
   --primary: #1a73e8;
   --secondary: #fbbc05;
   --header-background: #1f1f1f;
+  --product-background: #156b15;
+  --discount-background: #f05454;
+  --rating-backgorund: rgb(238, 219, 48);
 }
 
 @layer components {

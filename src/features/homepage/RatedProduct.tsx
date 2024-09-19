@@ -17,7 +17,7 @@ function RatedProduct({ products }: RatedProductProps) {
         products.filter((product) => product.rating > 4)
       }
       linkTo="/signup"
-      bgColor="bg-yellow-200"
+      bgColor="bg-rating-background"
     />
   );
 }
