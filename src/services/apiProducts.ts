@@ -9,7 +9,12 @@ export type Product = {
   discountPercentage: number;
   rating: number;
   stock: number;
-  imageUrl?: string;
+  brand: string;
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  returnPolicy: string;
+  thumbnail: string;
 };
 
 export async function fetchProducts(): Promise<Product[]> {

@@ -1,17 +1,15 @@
 import { FaDollarSign } from 'react-icons/fa';
-import ProductList from './ProductList';
 import { Product } from '../../services/apiProducts';
+import OffersContainer from './OffersContainer';
 
 type ProductsUnderProps = {
   products: Product[];
-  getImageUrl: (category: string) => string;
 };
 
-function ProductsUnder({ products, getImageUrl }: ProductsUnderProps) {
+function ProductsUnder({ products }: ProductsUnderProps) {
   return (
-    <ProductList
+    <OffersContainer
       products={products}
-      getImageUrl={getImageUrl}
       title="Items Under $20"
       Icon={FaDollarSign}
       iconColor="text-green-500"

@@ -8,6 +8,7 @@ import ProductsUnder from '../features/homepage/ProductsUnder';
 import DiscountProducts from '../features/homepage/DiscountProducts';
 import RatedProduct from '../features/homepage/RatedProduct';
 import Hero from '../features/homepage/Hero';
+import ProductPaginator from '../features/homepage/ProductPaginator';
 
 function Homepage() {
   const {
@@ -19,30 +20,24 @@ function Homepage() {
     queryFn: fetchProducts,
   });
 
-  const getImageUrl = (category: string) => {
-    switch (category) {
-      case 'beauty':
-        return './beauty.jpg';
-      case 'furniture':
-        return './couch.jpg';
-      default:
-        return './download.jfif';
-    }
-  };
-
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
 
   return (
     <div className="container mx-auto bg-background p-4 text-text">
+      {/* Hero Section*/}
       <Hero />
-
+      {/* Offers Containers Section*/}
       <section className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <ProductsUnder products={products ?? []} getImageUrl={getImageUrl} />
-        <DiscountProducts products={products ?? []} getImageUrl={getImageUrl} />
-        <RatedProduct products={products ?? []} getImageUrl={getImageUrl} />
+        <ProductsUnder products={products ?? []} />
+        <DiscountProducts products={products ?? []} />
+        <RatedProduct products={products ?? []} />
       </section>
 
+      {/* Paginator Section*/}
+      <ProductPaginator products={products ?? []} />
+
+      {/* Exclusive Section*/}
       <ExclusiveOffer />
     </div>
   );

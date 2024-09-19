@@ -1,17 +1,15 @@
 import { FaTag } from 'react-icons/fa';
-import ProductList from './ProductList';
 import { Product } from '../../services/apiProducts';
+import OffersContainer from './OffersContainer';
 
 type DiscountProductsProps = {
   products: Product[];
-  getImageUrl: (category: string) => string;
 };
 
-function DiscountProducts({ products, getImageUrl }: DiscountProductsProps) {
+function DiscountProducts({ products }: DiscountProductsProps) {
   return (
-    <ProductList
+    <OffersContainer
       products={products}
-      getImageUrl={getImageUrl}
       title="Discounts Over 15%"
       Icon={FaTag}
       iconColor="text-red-600"
