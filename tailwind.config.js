@@ -14,6 +14,7 @@ module.exports = {
         'rating-background': 'var(--rating-backgorund)',
         'nochange-text': 'var(--nochange-text)',
         'nochange-background': 'var(--nochange-background)',
+        'sellers-background': 'var(--sellers-background)',
       },
     },
   },

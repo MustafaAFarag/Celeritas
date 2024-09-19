@@ -8,7 +8,8 @@ import ProductsUnder from '../features/homepage/ProductsUnder';
 import DiscountProducts from '../features/homepage/DiscountProducts';
 import RatedProduct from '../features/homepage/RatedProduct';
 import Hero from '../features/homepage/Hero';
-import ProductPaginator from '../features/homepage/ProductPaginator';
+import BestSellersCarousel from '../features/homepage/BestSellersCarousel';
+import NewArrivalsPaginator from '../features/homepage/NewArrivalsPaginator';
 
 function Homepage() {
   const {
@@ -35,7 +36,10 @@ function Homepage() {
       </section>
 
       {/* Paginator Section*/}
-      <ProductPaginator products={products ?? []} />
+      <NewArrivalsPaginator />
+
+      {/* Carousel Section*/}
+      <BestSellersCarousel products={products ?? []} />
 
       {/* Exclusive Section*/}
       <ExclusiveOffer />

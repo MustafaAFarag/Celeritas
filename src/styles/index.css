@@ -14,6 +14,7 @@
   --product-background: #85f17b;
   --discount-background: #f37a7a;
   --rating-backgorund: #f2f564;
+  --sellers-background: #e5e7eb;
 }
 
 .dark {
@@ -25,6 +26,7 @@
   --product-background: #156b15;
   --discount-background: #f05454;
   --rating-backgorund: rgb(238, 219, 48);
+  --sellers-background: #4b5563;
 }
 
 @layer components {
@@ -136,6 +138,22 @@ li {
 
 /* Styles for Firefox */
 .scrollable-element {
-  scrollbar-width: thin; /* Thin scrollbar */
-  scrollbar-color: #888 #f1f1f1; /* Scrollbar color and track color */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.custom-swiper-pagination .swiper-pagination-bullet {
+  background-color: #ccc;
+  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+/* Style the active dot */
+.custom-swiper-pagination .swiper-pagination-bullet-active {
+  background-color: #ff5722;
+  opacity: 1;
+  transform: scale(1.2);
 }
