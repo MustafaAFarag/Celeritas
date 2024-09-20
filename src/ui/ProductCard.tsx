@@ -25,7 +25,8 @@ function ProductCard({ product, className }: ProductCardProps) {
       </h3>
       <div className="mb-3 flex justify-between text-lg">
         <span className="flex items-center text-yellow-500">
-          <FaStar className="mr-1 h-4 w-4" /> {product.rating}/5
+          <FaStar className="mr-1 h-4 w-4 -translate-y-0.5" /> {product.rating}
+          /5
         </span>
         <span className="flex items-center text-red-500">
           <FaTag className="mr-1 h-4 w-4" /> {product.discountPercentage}%

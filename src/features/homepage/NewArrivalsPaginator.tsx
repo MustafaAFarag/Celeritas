@@ -11,10 +11,10 @@ type PaginatorProductProps = {
 
 function NewArrivalsPaginator() {
   const [products] = useState<PaginatorProductProps[]>([
-    { id: 1, image: './furniture.webp', alt: 'Furniture Product' },
-    { id: 2, image: './perfume.webp', alt: 'Beauty Product 1' },
-    { id: 3, image: './beauty.jpg', alt: 'Beauty Product 2' },
-    { id: 4, image: './beauty.jpg', alt: 'Beauty Product 3' },
+    { id: 1, image: './technology.webp', alt: 'Furniture Product' },
+    { id: 2, image: './furniture.webp', alt: 'Beauty Product 1' },
+    { id: 3, image: './perfume.webp', alt: 'Beauty Product 2' },
+    { id: 4, image: './bedroom.webp', alt: 'Beauty Product 3' },
   ]);
 
   const itemTemplate = (product: PaginatorProductProps) => {

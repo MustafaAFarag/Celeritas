@@ -2,18 +2,9 @@ Requriments and Features =>
 
 Functional Requirements
 
-● There will be an Admin / User
-
-● Login: The system should have the login functionality so the user can give their email and password in
-specified fields if the user wants to buy the product.
-
-● Search: The system should have a search bar in which users can search for any product type.
-
 ● Product Description: The system should have the description of the product, when the user clicks on the product image the product’s page will open where the product’s description is available.
 
 ● Add to Cart: The system has a cart, the add to cart will allow the user to add the desired products into the cart, when the wish list completes the user will go to the cart and buy products.
-
-● Sign up: This feature will create a user account with a unique email (each email will specify only one user), which allows the user to buy the desired products.
 
 ● Payment Method: The system should have a payment method, this allows the user to choose between a
 different number of payment options. Any payment potion has required data, there must be fields to take

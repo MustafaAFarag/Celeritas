@@ -19,8 +19,8 @@
   --discount-background: #f37a7a;
   --rating-backgorund: #f2f564;
   --sellers-background: #e5e7eb;
-  --scrollbar-track: #e0e0e0; /* Light mode scrollbar track color */
-  --scrollbar-thumb: #888; /* Light mode scrollbar thumb color */
+  --scrollbar-track: #e0e0e0;
+  --scrollbar-thumb: #888;
 }
 
 .dark {
@@ -33,8 +33,8 @@
   --discount-background: #f35353;
   --rating-backgorund: #e6d32d;
   --sellers-background: #4b5563;
-  --scrollbar-track: #2c2c2c; /* Dark mode scrollbar track color */
-  --scrollbar-thumb: #555; /* Dark mode scrollbar thumb color */
+  --scrollbar-track: #2c2c2c;
+  --scrollbar-thumb: #555;
 }
 
 @layer components {
