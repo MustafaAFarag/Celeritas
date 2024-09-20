@@ -1,51 +1,62 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Carousel } from 'primereact/carousel';
+import { useState } from 'react';
+import { motion } from 'framer-motion'; // Import Framer Motion
+
+type PaginatorProductProps = {
+  id: number;
+  image: string;
+  alt: string;
+};
 
 function NewArrivalsPaginator() {
+  const [products] = useState<PaginatorProductProps[]>([
+    { id: 1, image: './furniture.webp', alt: 'Furniture Product' },
+    { id: 2, image: './perfume.webp', alt: 'Beauty Product 1' },
+    { id: 3, image: './beauty.jpg', alt: 'Beauty Product 2' },
+    { id: 4, image: './beauty.jpg', alt: 'Beauty Product 3' },
+  ]);
+
+  const itemTemplate = (product: PaginatorProductProps) => {
+    return (
+      <div className="flex justify-center">
+        <img
+          src={product.image}
+          alt={product.alt}
+          className="h-[600px] w-full rounded-lg object-cover"
+        />
+      </div>
+    );
+  };
+
+  // Animation variants for when the component comes into view
+  const paginatorVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, ease: 'easeOut' },
+    },
+  };
+
   return (
-    <div className="relative my-10">
-      <Swiper
-        modules={[Pagination, Autoplay]}
-        pagination={{ clickable: true, el: '.custom-swiper-pagination' }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-        loop={true}
-        spaceBetween={100}
-        className="swiper-container"
-      >
-        <SwiperSlide className="flex justify-center">
-          <img
-            src="./furniture.webp"
-            alt="Furniture Product"
-            className="h-[600px] w-full rounded-lg"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center">
-          <img
-            src="./perfume.webp"
-            alt="Beauty Product 1"
-            className="h-[600px] w-full rounded-lg object-cover"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center">
-          <img
-            src="./beauty.jpg"
-            alt="Beauty Product 2"
-            className="h-[600px] w-full rounded-lg"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center">
-          <img
-            src="./beauty.jpg"
-            alt="Beauty Product 3"
-            className="h-[600px] w-full rounded-lg"
-          />
-        </SwiperSlide>
-      </Swiper>
-      {/* Pagination dots positioned at the bottom of the images */}
-      <div className="custom-swiper-pagination absolute bottom-4 left-1/2 z-50 -translate-x-1/2 transform"></div>
-    </div>
+    <motion.div
+      className="relative my-10"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={paginatorVariants}
+    >
+      <Carousel
+        value={products}
+        itemTemplate={itemTemplate}
+        numVisible={1}
+        numScroll={1}
+        autoplayInterval={3000}
+        circular
+        showNavigators={false}
+      />
+    </motion.div>
   );
 }
 

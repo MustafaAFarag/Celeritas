@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { type Product } from '../../services/apiProducts';
 import { IconType } from 'react-icons';
 import ProductCard from '../../ui/ProductCard';
+import { motion } from 'framer-motion';
 
 type ProductListProps = {
   products: Product[];
@@ -24,16 +25,42 @@ function OffersContainer({
 }: ProductListProps) {
   const filteredProducts = filterProducts(products).splice(0, 4);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.5 } },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (index: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: index * 0.1 }, // stagger effect
+    }),
+  };
+
   return (
-    <div
-      className={`flex flex-grow flex-col rounded-lg ${bgColor} p-6 shadow-md`}
+    <motion.div
+      className={`flex flex-grow flex-col rounded-lg ${bgColor} p-6 shadow-lg`}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
     >
-      <h2 className="text-nochange-text mb-6 text-center text-3xl font-bold">
+      <h2 className="mb-6 text-center text-3xl font-bold text-nochange-text">
         <Icon className={`mr-2 inline ${iconColor}`} /> {title}
       </h2>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {filteredProducts.map((product, index) => (
+          <motion.div
+            key={product.id}
+            variants={cardVariants}
+            custom={index}
+            initial="hidden"
+            animate="visible"
+          >
+            <ProductCard product={product} />
+          </motion.div>
         ))}
       </div>
       <Link
@@ -42,7 +69,7 @@ function OffersContainer({
       >
         Check All
       </Link>
-    </div>
+    </motion.div>
   );
 }
 

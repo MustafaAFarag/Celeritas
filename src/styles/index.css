@@ -1,4 +1,8 @@
 /* src/index.css */
+@import 'primereact/resources/themes/lara-light-indigo/theme.css'; /* or any theme you prefer */
+@import 'primereact/resources/primereact.min.css';
+@import 'primeicons/primeicons.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,6 +19,8 @@
   --discount-background: #f37a7a;
   --rating-backgorund: #f2f564;
   --sellers-background: #e5e7eb;
+  --scrollbar-track: #e0e0e0; /* Light mode scrollbar track color */
+  --scrollbar-thumb: #888; /* Light mode scrollbar thumb color */
 }
 
 .dark {
@@ -24,9 +30,11 @@
   --secondary: #fbbc05;
   --header-background: #1f1f1f;
   --product-background: #156b15;
-  --discount-background: #f05454;
-  --rating-backgorund: rgb(238, 219, 48);
+  --discount-background: #f35353;
+  --rating-backgorund: #e6d32d;
   --sellers-background: #4b5563;
+  --scrollbar-track: #2c2c2c; /* Dark mode scrollbar track color */
+  --scrollbar-thumb: #555; /* Dark mode scrollbar thumb color */
 }
 
 @layer components {
@@ -123,17 +131,17 @@ li {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track color */
+  background: var(--scrollbar-track);
   border-radius: 10px; /* Rounded corners for the track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Scrollbar color */
+  background: var(--scrollbar-thumb);
   border-radius: 10px; /* Rounded corners for the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker color on hover */
+  background: #444; /* Darker color on hover */
 }
 
 /* Styles for Firefox */
@@ -145,10 +153,11 @@ li {
 .custom-swiper-pagination .swiper-pagination-bullet {
   background-color: #ccc;
   opacity: 0.6;
-  width: 10px;
+  width: 10px; /* Adjusted to a more standard size */
   height: 10px;
   margin: 0 5px;
   cursor: pointer;
+  border-radius: 50%; /* Make sure the dots are circular */
 }
 
 /* Style the active dot */

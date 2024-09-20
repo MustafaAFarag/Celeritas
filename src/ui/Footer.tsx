@@ -1,137 +1,91 @@
 function Footer() {
   return (
-    <footer className="bg-dark-background text-dark-text p-8 mt-4">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="mt-4 bg-sellers-background p-10 text-text">
+      <div className="container mx-auto grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         {/* Contacts Section */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+          <h3 className="mb-4 text-xl font-bold">Contact Us</h3>
           <ul className="space-y-2">
-            <li>Email: support@schnellkorb.com</li>
-            <li>Phone: +1 (800) 123-4567</li>
-            <li>Address: 123 Market St, Alexandria, Egypt</li>
+            <li>
+              Email:{' '}
+              <span className="text-blue-500">support@schnellkorb.com</span>
+            </li>
+            <li>
+              Phone: <span className="text-blue-500">+1 (800) 123-4567</span>
+            </li>
+            <li>
+              Address:{' '}
+              <span className="text-blue-500">
+                123 Market St, Alexandria, Egypt
+              </span>
+            </li>
           </ul>
         </div>
 
         {/* Help & FAQ Section */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Help & FAQ</h3>
+          <h3 className="mb-4 text-xl font-bold">Help & FAQ</h3>
           <ul className="space-y-2">
-            <li>
-              <a href="/faq" className="hover:text-primary transition-colors">
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a
-                href="/shipping"
-                className="hover:text-primary transition-colors"
-              >
-                Shipping Information
-              </a>
-            </li>
-            <li>
-              <a
-                href="/returns"
-                className="hover:text-primary transition-colors"
-              >
-                Return Policy
-              </a>
-            </li>
-            <li>
-              <a
-                href="/support"
-                className="hover:text-primary transition-colors"
-              >
-                Customer Support
-              </a>
-            </li>
+            {[
+              'FAQs',
+              'Shipping Information',
+              'Return Policy',
+              'Customer Support',
+            ].map((item) => (
+              <li key={item}>
+                <a
+                  href={`/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="transition-colors hover:text-primary"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* About Us Section */}
         <div>
-          <h3 className="text-xl font-bold mb-4">About Schnell Korb</h3>
+          <h3 className="mb-4 text-xl font-bold">About Schnell Korb</h3>
           <ul className="space-y-2">
-            <li>
-              <a href="/about" className="hover:text-primary transition-colors">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a
-                href="/careers"
-                className="hover:text-primary transition-colors"
-              >
-                Careers
-              </a>
-            </li>
-            <li>
-              <a href="/blog" className="hover:text-primary transition-colors">
-                Blog
-              </a>
-            </li>
-            <li>
-              <a
-                href="/privacy"
-                className="hover:text-primary transition-colors"
-              >
-                Privacy Policy
-              </a>
-            </li>
+            {['About Us', 'Careers', 'Blog', 'Privacy Policy'].map((item) => (
+              <li key={item}>
+                <a
+                  href={`/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="transition-colors hover:text-primary"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Follow Us Section */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+          <h3 className="mb-4 text-xl font-bold">Follow Us</h3>
           <ul className="space-y-2">
-            <li>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-primary transition-colors"
-              >
-                Facebook
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-primary transition-colors"
-              >
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-primary transition-colors"
-              >
-                Twitter
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-primary transition-colors"
-              >
-                LinkedIn
-              </a>
-            </li>
+            {['Facebook', 'Instagram', 'Twitter', 'LinkedIn'].map(
+              (platform) => (
+                <li key={platform}>
+                  <a
+                    href={`https://${platform.toLowerCase()}.com`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors hover:text-primary"
+                  >
+                    {platform}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
         </div>
       </div>
 
       {/* Copyright Section */}
-      <div className="container mx-auto text-center pt-8 border-t border-gray-600 mt-8">
-        <p>
+      <div className="container mx-auto mt-8 border-t border-gray-600 pt-8 text-center">
+        <p className="text-sm">
           &copy; {new Date().getFullYear()} Schnell Korb. All rights reserved.
         </p>
       </div>
