@@ -7,19 +7,7 @@ import AppLayout from './ui/AppLayout';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-// import ProductListing from './pages/ProductListing';
-// import ProductDetails from './pages/ProductDetails';
-// import Cart from './pages/Cart';
-// import Checkout from './pages/Checkout';
-// import OrderConfirmation from './pages/OrderConfirmation';
-// import OrderHistory from './pages/OrderHistory';
-// import Feedback from './pages/Feedback';
-// import Help from './pages/Help';
-// import AdminDashboard from './pages/admin/AdminDashboard';
-// import ManageProducts from './pages/admin/ManageProducts';
-// import ManageCoupons from './pages/admin/ManageCoupons';
-// import ManageCategories from './pages/admin/ManageCategories';
-// import ProtectedRoute from './components/ProtectedRoute';
+import ProductListing from './pages/ProductListing';
 
 const queryClient = new QueryClient();
 
@@ -37,23 +25,7 @@ function App() {
             }
           >
             <Route path="/" element={<Homepage />} />
-            {/* <Route path="/products" element={<ProductListing />} />
-          <Route path="/product/:productId" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order-confirmation" element={<OrderConfirmation />} />
-          <Route path="/orders" element={<OrderHistory />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/help" element={<Help />} /> */}
-            {/* <Route element={<ProtectedAdminRoute />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/manage-products" element={<ManageProducts />} />
-            <Route path="/admin/manage-coupons" element={<ManageCoupons />} />
-            <Route
-            path="/admin/manage-categories"
-            element={<ManageCategories />}
-            />
-            </Route> */}
+            <Route path="/products" element={<ProductListing />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
