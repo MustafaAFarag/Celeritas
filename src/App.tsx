@@ -24,8 +24,8 @@ function App() {
               // </ProtectedRoute>
             }
           >
-            <Route path="/" element={<Homepage />} />
             <Route path="/products" element={<ProductListing />} />
+            <Route path="/" element={<Homepage />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

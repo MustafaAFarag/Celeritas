@@ -1,5 +1,5 @@
 /* src/index.css */
-@import 'primereact/resources/themes/lara-light-indigo/theme.css'; /* or any theme you prefer */
+@import 'primereact/resources/themes/lara-light-indigo/theme.css';
 @import 'primereact/resources/primereact.min.css';
 @import 'primeicons/primeicons.css';
 
@@ -165,4 +165,11 @@ li {
   background-color: #ff5722;
   opacity: 1;
   transform: scale(1.2);
+}
+
+/* Style for the dropdown container */
+.p-dropdown {
+  background-color: var(
+    --background
+  ); /* Change to your desired background color */
 }

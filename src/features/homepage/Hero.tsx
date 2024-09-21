@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function Hero() {
   // Animation variants
@@ -30,9 +31,12 @@ function Hero() {
           Discover the best deals on high-quality products. Shop now and enjoy
           fast delivery and excellent customer service!
         </p>
-        <button className="hover:bg-secondary-dark mt-4 rounded-lg bg-secondary px-6 py-3 text-white transition duration-200">
+        <Link
+          to="/products"
+          className="hover:bg-secondary-dark mt-4 inline-block rounded-lg bg-secondary px-6 py-3 text-white transition duration-200"
+        >
           Shop Now
-        </button>
+        </Link>
       </div>
     </motion.section>
   );
