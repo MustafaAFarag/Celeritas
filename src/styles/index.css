@@ -169,7 +169,23 @@ li {
 
 /* Style for the dropdown container */
 .p-dropdown {
-  background-color: var(
-    --background
-  ); /* Change to your desired background color */
+  background-color: var(--background);
+}
+
+/* Customize the slider track */
+.custom-slider .p-slider-range {
+  background-color: var(--primary);
+}
+
+/* Customize the slider handle (thumb) */
+.custom-slider .p-slider-handle {
+  border: 2px solid var(--primary);
+  translate: 0px -5px;
+}
+
+/* Optional: Add hover and focus effects on the slider handle */
+.custom-slider .p-slider-handle:hover,
+.custom-slider .p-slider-handle:focus {
+  transform: scale(1.1);
+  background-color: white;
 }

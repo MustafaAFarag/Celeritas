@@ -48,8 +48,6 @@ function ProductListing() {
     queryFn: fetchProducts,
   });
 
-  console.log(selectedCategory);
-
   // Filter products based on applied filter states
   useEffect(() => {
     if (products) {
@@ -57,12 +55,16 @@ function ProductListing() {
         const matchesQuery = product.title
           .toLowerCase()
           .includes(query.toLowerCase());
-        const matchesCategory = selectedCategory
-          ? product.category.toLowerCase() === selectedCategory?.toLowerCase()
-          : true;
-        const matchesBrand = selectedBrand
-          ? product.brand?.toLowerCase().includes(selectedBrand.toLowerCase())
-          : true;
+        const matchesCategory =
+          selectedCategory === '' || selectedCategory === 'all-category'
+            ? true
+            : product.category.toLowerCase() === selectedCategory.toLowerCase();
+        const matchesBrand =
+          selectedBrand === '' || selectedBrand === 'all-brand'
+            ? true
+            : product.brand
+                ?.toLowerCase()
+                .includes(selectedBrand.toLowerCase());
         const matchesStock = inStock ? product.stock > 0 : true;
         const matchesPriceRange =
           product.price >= priceRange[0] && product.price <= priceRange[1];
@@ -81,20 +83,20 @@ function ProductListing() {
 
   // Handle the application of filters
   function handleApplyFilters() {
-    setSelectedCategory(inputCategory);
-    setSelectedBrand(inputBrand);
+    setSelectedCategory(inputCategory === 'all-category' ? '' : inputCategory);
+    setSelectedBrand(inputBrand === 'all-brand' ? '' : inputBrand);
     setInStock(inputInStock);
     setPriceRange(inputPriceRange);
 
     // Update the URL search parameters
     const params = new URLSearchParams(searchParams);
     if (query) params.set('query', query);
-    if (inputCategory) {
+    if (inputCategory && inputCategory !== 'all-category') {
       params.set('category', inputCategory);
     } else {
       params.delete('category');
     }
-    if (inputBrand) {
+    if (inputBrand && inputBrand !== 'all-brand') {
       params.set('brand', inputBrand);
     } else {
       params.delete('brand');
@@ -119,21 +121,24 @@ function ProductListing() {
     );
 
   // Create unique dropdown options
-  const categories = Array.from(
-    new Set(products?.map((product) => product.category) || []),
+  const filteredCategories = Array.from(
+    new Set(filteredProducts.map((product) => product.category)),
   );
-  const brands = Array.from(
-    new Set(products?.map((product) => product.brand) || []),
+  const filteredBrands = Array.from(
+    new Set(filteredProducts.map((product) => product.brand)),
   );
 
   const categoryDropdownOptions = [
-    { label: 'All Categories', value: '' },
-    ...categories.map((category) => ({ label: category, value: category })),
+    { label: 'All Categories', value: 'all-category' },
+    ...filteredCategories.map((category) => ({
+      label: category,
+      value: category,
+    })),
   ];
 
   const brandDropdownOptions = [
-    { label: 'All Brands', value: '' },
-    ...brands.map((brand) => ({ label: brand, value: brand })),
+    { label: 'All Brands', value: 'all-brand' },
+    ...filteredBrands.map((brand) => ({ label: brand, value: brand })),
   ];
 
   return (
@@ -150,10 +155,11 @@ function ProductListing() {
             options={categoryDropdownOptions}
             onChange={(e: DropdownChangeEvent) => setInputCategory(e.value)}
             className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 md:w-48"
+            placeholder="Select a Category"
             valueTemplate={(option) => (
               <span className="p-2 text-lg text-text">
                 {option ? option.label : 'Select a Category'}
-              </span> //
+              </span>
             )}
             itemTemplate={(option) => (
               <span className="text-xl">{option.label}</span>
@@ -169,7 +175,7 @@ function ProductListing() {
             valueTemplate={(option) => (
               <span className="p-2 text-lg text-text">
                 {option ? option.label : 'Select a Brand'}
-              </span> //
+              </span>
             )}
             itemTemplate={(option) => (
               <span className="text-xl">{option.label}</span>
@@ -180,6 +186,7 @@ function ProductListing() {
             <span>In Stock</span>
             <InputSwitch
               checked={inputInStock}
+              className="custom-inputswitch"
               onChange={(e) => setInputInStock(e.value)}
             />
           </div>
@@ -193,7 +200,7 @@ function ProductListing() {
               onChange={(e: SliderChangeEvent) =>
                 setInputPriceRange(e.value as [number, number])
               }
-              className="w-64"
+              className="custom-slider w-64"
               range
               min={0}
               max={5000}
@@ -220,9 +227,9 @@ function ProductListing() {
             />
           ))
         ) : (
-          <p className="col-span-full text-center">
-            No products found matching your search.
-          </p>
+          <div className="col-span-full mt-6 text-center text-lg text-text">
+            No products match your search criteria.
+          </div>
         )}
       </div>
     </div>
