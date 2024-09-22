@@ -189,3 +189,16 @@ li {
   transform: scale(1.1);
   background-color: white;
 }
+
+button
+  .custom-paginator
+  .p-paginator-page
+  .p-paginator-element
+  .p-link
+  .p-paginator-page-start
+  .p-highlight {
+  border: 2px solid #ffd700; /* Adjust the color and size as needed */
+  border-radius: 50%; /* Creates a ring shape */
+  background-color: white; /* Background color of the active page */
+  color: #000; /* Text color */
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -6,6 +7,7 @@ import ProductCardListing from '../ui/ProductCardListing';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
+import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
 
 function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,14 +23,14 @@ function ProductListing() {
     Number(searchParams.get('maxPrice')) || 5000,
   ];
 
-  // Filter input states (these states change based on user input)
+  // Filter input states
   const [inputCategory, setInputCategory] = useState<string>(initialCategory);
   const [inputBrand, setInputBrand] = useState<string>(initialBrand);
   const [inputInStock, setInputInStock] = useState<boolean>(initialInStock);
   const [inputPriceRange, setInputPriceRange] =
     useState<[number, number]>(initialPriceRange);
 
-  // Applied filter states (these states are updated only when filters are applied)
+  // Applied filter states
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
   const [selectedBrand, setSelectedBrand] = useState<string>(initialBrand);
@@ -37,6 +39,10 @@ function ProductListing() {
     useState<[number, number]>(initialPriceRange);
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const productsPerPage = 12;
 
   // Fetch products
   const {
@@ -88,7 +94,6 @@ function ProductListing() {
     setInStock(inputInStock);
     setPriceRange(inputPriceRange);
 
-    // Update the URL search parameters
     const params = new URLSearchParams(searchParams);
     if (query) params.set('query', query);
     if (inputCategory && inputCategory !== 'all-category') {
@@ -119,6 +124,47 @@ function ProductListing() {
         Failed to load products.
       </div>
     );
+
+  // Pagination logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
+
+  const paginatorTemplate = {
+    layout: 'PrevPageLink PageLinks NextPageLink',
+    PageLinks: (options: any) => {
+      if (
+        (options.view.startPage === options.page &&
+          options.view.startPage !== 0) ||
+        (options.view.endPage === options.page &&
+          options.page + 1 !== options.totalPages)
+      ) {
+        const className = `${options.className} p-1`;
+        return (
+          <span className={className} style={{ userSelect: 'none' }}>
+            ...
+          </span>
+        );
+      }
+
+      return (
+        <button
+          type="button"
+          className={`${options.className} ${
+            options.page === currentPage - 1
+              ? 'ring-2 ring-blue-500 ring-offset-2'
+              : 'hover:bg-primary'
+          } transition-all duration-150`}
+          onClick={options.onClick}
+        >
+          {options.page + 1}
+        </button>
+      );
+    },
+  };
 
   // Create unique dropdown options
   const filteredCategories = Array.from(
@@ -218,8 +264,8 @@ function ProductListing() {
 
       {/* Display Products */}
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+        {currentProducts.length > 0 ? (
+          currentProducts.map((product) => (
             <ProductCardListing
               key={product.id}
               product={product}
@@ -231,6 +277,20 @@ function ProductListing() {
             No products match your search criteria.
           </div>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex justify-center">
+        <Paginator
+          first={indexOfFirstProduct}
+          rows={productsPerPage}
+          totalRecords={filteredProducts.length}
+          onPageChange={(e: PaginatorPageChangeEvent) =>
+            setCurrentPage(e.page + 1)
+          }
+          className="rounded-lg bg-background p-4 text-text shadow-lg"
+          template={paginatorTemplate}
+        />
       </div>
     </div>
   );
