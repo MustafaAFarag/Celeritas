@@ -1,44 +1,33 @@
-import { FormEvent } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { signup } from '../../services/apiAuth';
-import { Link, useNavigate } from 'react-router-dom';
 
 function SignupForm() {
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
 
-  const { mutate: signupMutation, isPending } = useMutation({
-    mutationFn: async ({
-      fullName,
-      email,
-      password,
-    }: {
-      fullName: string;
-      email: string;
-      password: string;
-    }) => {
-      await signup({ fullName, email, password });
-    },
-    onSuccess: () => {
-      toast.success('Signup Successful!');
-      navigate('/', { replace: true });
-    },
-    onError: (error) => {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Signup failed';
-      toast.error(errorMessage);
-    },
-  });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsPending(true);
+
     const form = e.currentTarget;
     const formData = new FormData(form);
     const fullName = formData.get('fullName') as string;
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    signupMutation({ fullName, email, password });
+    try {
+      await signup({ fullName, email, password });
+      toast.success('Signup Successful!');
+      navigate('/', { replace: true });
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Signup failed';
+      toast.error(errorMessage);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

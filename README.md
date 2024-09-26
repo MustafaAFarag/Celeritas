@@ -2,8 +2,6 @@ Requriments and Features =>
 
 Functional Requirements
 
-● Product Description: The system should have the description of the product, when the user clicks on the product image the product’s page will open where the product’s description is available.
-
 ● Add to Cart: The system has a cart, the add to cart will allow the user to add the desired products into the cart, when the wish list completes the user will go to the cart and buy products.
 
 ● Payment Method: The system should have a payment method, this allows the user to choose between a
@@ -18,11 +16,6 @@ generated receipt will appear on the screen, this receipt will be sent via email
 ● CRUD Operations: The System should have a feature on the admin site to create/add new products or
 update the existing product. Also if the product is out of stock or old the admin can delete the product.
 
-● The image uploading feature: The system should have an image upload feature in the admin site in which
-the admin can upload up to 5 images for a new product or add up to 5 images of an existing product.
-
-● Product Categorization: The system should provide an additional and immensely useful feature that helps the sellers to categorize their products into subcategories by selecting an existing category option or by creating a new category option in product options.
-
 ● Coupons: The system should have a coupon feature on the admin site which allows the admin to offer
 coupons to users for marketing.
 
@@ -30,9 +23,6 @@ coupons to users for marketing.
 
 ● Compute Shipping time: The system should show the user how much time it will take to deliver the
 product to the user.
-
-● Contact/Help/Customer Care: The system should have a contact us page that allows the user to ask
-queries if he/she faces any problems related to the product or in purchasing.
 
 Non-Functional Requirement:
 

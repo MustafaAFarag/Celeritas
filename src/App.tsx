@@ -8,6 +8,8 @@ import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ProductListing from './pages/ProductListing';
+import ProductDetails from './pages/ProductDetails';
+import AccountSettings from './pages/AccountSettings';
 
 const queryClient = new QueryClient();
 
@@ -24,8 +26,10 @@ function App() {
               // </ProtectedRoute>
             }
           >
-            <Route path="/products" element={<ProductListing />} />
             <Route path="/" element={<Homepage />} />
+            <Route path="/product-detail" element={<ProductDetails />} />
+            <Route path="/products" element={<ProductListing />} />
+            <Route path="/account-settings" element={<AccountSettings />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

@@ -1,47 +1,37 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { getCurrentUser, login } from '../../services/apiAuth';
-import { useNavigate, Link } from 'react-router-dom';
-import { FormEvent } from 'react';
 
 function LoginForm() {
-  const queryClient = useQueryClient();
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
 
-  const { mutate: loginMutation, isPending } = useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: {
-      email: string;
-      password: string;
-    }) => {
-      await login({ email, password });
-    },
-    onSuccess: async () => {
-      try {
-        const userDetails = await getCurrentUser();
-        queryClient.setQueryData(['user'], userDetails);
-        toast.success('Login Successful!');
-        navigate('/', { replace: true });
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : 'Failed to fetch user Details';
-        toast.error(errorMessage);
-      }
-    },
-  });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsPending(true);
+
     const form = e.currentTarget;
     const formData = new FormData(form);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    loginMutation({ email, password });
+    try {
+      await login({ email, password });
+      const userDetails = await getCurrentUser();
+      if (userDetails) {
+        toast.success('Login Successful!');
+        navigate('/', { replace: true });
+      } else {
+        throw new Error('Failed to fetch user details');
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Login failed';
+      toast.error(errorMessage);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

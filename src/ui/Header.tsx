@@ -1,14 +1,18 @@
-// components/Header.tsx
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion'; // Import motion
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import { FaSignOutAlt } from 'react-icons/fa'; // Importing logout icon
 import Logo from './Logo';
 import NavBar from '../features/header/Navbar';
 import ThemeToggle from '../features/header/ThemeToggle';
 import CartIcon from '../features/header/CartIcon';
 import UserIconComponent from '../features/header/UserIconComponent';
 import SearchBar from '../features/header/SearchBar';
+import { getCurrentUser, logout, type User } from '../services/apiAuth'; // Import the logout function
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 function Header() {
+  const queryClient = useQueryClient();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const toggleTheme = () => {
@@ -18,6 +22,22 @@ function Header() {
   useEffect(() => {
     document.body.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery<User | null>({
+    queryKey: ['user'],
+    queryFn: getCurrentUser,
+  });
+
+  // Handle logout
+  const handleLogout = async () => {
+    await logout(); // Perform the logout action
+    queryClient.invalidateQueries({ queryKey: ['user'] });
+    queryClient.setQueryData(['user'], null);
+  };
 
   // Animation variants
   const headerVariants = {
@@ -30,13 +50,16 @@ function Header() {
     visible: { opacity: 1, y: 0 },
   };
 
+  if (isLoading) return <p>Loading....</p>;
+  if (error) return <p>{error.message}</p>;
+
   return (
     <>
       <motion.nav
         initial="hidden"
         animate="visible"
         variants={headerVariants}
-        transition={{ duration: 0.5 }} // Customize the duration as needed
+        transition={{ duration: 0.5 }}
         className="sticky top-0 z-50 flex items-center justify-between bg-header-background p-4 px-16 shadow-lg"
       >
         <div className="container mx-auto flex max-w-[120rem] items-center justify-between">
@@ -45,7 +68,32 @@ function Header() {
           <div className="flex items-center space-x-3">
             <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             <CartIcon />
-            <UserIconComponent />
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <UserIconComponent />
+                <button
+                  onClick={handleLogout}
+                  className="flex transform items-center rounded-lg bg-primary p-2 text-white shadow-md transition-transform duration-200 hover:scale-110 hover:bg-opacity-90"
+                >
+                  <FaSignOutAlt className="text-xl" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex space-x-4">
+                <Link
+                  to="/login"
+                  className="bg- rounded-lg bg-primary p-2 text-lg font-medium text-white hover:underline"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg- rounded-lg bg-primary p-2 text-lg font-medium text-white hover:underline"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </motion.nav>
@@ -54,7 +102,7 @@ function Header() {
         initial="hidden"
         animate="visible"
         variants={searchBarVariants}
-        transition={{ duration: 0.5 }} // Customize the duration as needed
+        transition={{ duration: 0.5 }}
       >
         <SearchBar />
       </motion.div>

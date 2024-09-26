@@ -1,31 +1,27 @@
-import supabase from './supabase.ts';
-
 export type User = {
   id: string;
   full_name: string;
   email: string;
   role: string;
   avatar: string;
+  password: string;
 };
 
-async function createUserInDatabase(
-  userId: string,
-  fullName: string,
-  email: string,
-) {
-  const { data, error } = await supabase.from('users').insert([
-    {
-      id: userId,
-      full_name: fullName,
-      email: email,
-      role: 'basic',
-      avatar: '',
-    },
-  ]);
+const STATIC_USER = {
+  email: 'testuser@example.com',
+  password: 'testuserpassword',
+};
 
-  if (error) throw new Error(error.message);
+const USERS_KEY = 'mock_users';
+const CURRENT_USER_KEY = 'mock_current_user';
 
-  return data;
+function getUsers(): User[] {
+  const users = localStorage.getItem(USERS_KEY);
+  return users ? JSON.parse(users) : [];
+}
+
+function saveUsers(users: User[]) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
 export async function signup({
@@ -36,22 +32,33 @@ export async function signup({
   fullName: string;
   email: string;
   password: string;
-}) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  if (error) throw new Error(error.message);
-
-  if (!data.user?.id) {
-    throw new Error('User ID not found after signup.');
+}): Promise<{ user: User }> {
+  const users = getUsers();
+  if (users.some((user) => user.email === email)) {
+    throw new Error('User with this email already exists');
   }
 
-  await createUserInDatabase(data.user.id, fullName, email);
+  const newUser: User = {
+    id: Date.now().toString(),
+    full_name: fullName,
+    email,
+    role: 'basic',
+    avatar: '',
+    password,
+  };
 
-  return data;
+  // Store the password securely (for demonstration only)
+  newUser['password'] = password; // Consider hashing in a real app
+
+  users.push(newUser);
+  saveUsers(users);
+
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+
+  return { user: newUser };
 }
+
+// src/services/apiAuth.ts
 
 export async function login({
   email,
@@ -59,40 +66,112 @@ export async function login({
 }: {
   email: string;
   password: string;
-}) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+}): Promise<{ user: User }> {
+  const users = getUsers();
+  const user = users.find((u) => u.email === email);
 
-  if (error instanceof Error) {
-    throw new Error(`Login error: ${error.message}`);
+  // Check against the static user
+  if (email === STATIC_USER.email && password === STATIC_USER.password) {
+    const staticUser: User = {
+      id: '1', // Static user ID
+      full_name: 'Test User',
+      email: STATIC_USER.email,
+      role: 'basic',
+      avatar: '',
+      password,
+    };
+
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(staticUser));
+    return { user: staticUser }; // Return the static user
   }
 
-  return data;
+  // If user found in local storage, validate password
+  if (user) {
+    if (user.password !== password) {
+      throw new Error('Incorrect password');
+    }
+
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    return { user }; // Return the found user
+  }
+
+  // If no user found
+  throw new Error('User not found');
 }
 
-export async function getCurrentUser() {
-  const {
-    data: { session },
-    error: sessionError,
-  } = await supabase.auth.getSession();
+export async function getCurrentUser(): Promise<User | null> {
+  const currentUser = localStorage.getItem(CURRENT_USER_KEY);
+  return currentUser ? JSON.parse(currentUser) : null;
+}
 
-  if (sessionError || !session?.user) {
-    throw new Error('Could not fetch session');
+export async function logout(): Promise<void> {
+  localStorage.removeItem(CURRENT_USER_KEY);
+}
+
+export async function updateUserProfile({
+  fullName,
+  email,
+}: {
+  fullName: string;
+  email: string;
+}): Promise<{ user: User }> {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error('No user logged in');
   }
 
-  const userId = session.user.id;
+  const users = getUsers();
+  const updatedUsers = users.map((user) =>
+    user.id === currentUser.id ? { ...user, full_name: fullName, email } : user,
+  );
 
-  const { data: userDetails, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', userId)
-    .single();
+  saveUsers(updatedUsers);
 
-  if (error instanceof Error) {
-    throw new Error(`Login error: ${error.message}`);
+  // Update the current user
+  const updatedUser = { ...currentUser, full_name: fullName, email };
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
+
+  return { user: updatedUser };
+}
+
+export async function updatePassword({
+  password,
+}: {
+  password: string;
+}): Promise<{ user: User }> {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error('No user logged in');
   }
 
-  return userDetails;
+  const users = getUsers();
+  const updatedUsers = users.map((user) =>
+    user.id === currentUser.id ? { ...user, password } : user,
+  );
+
+  saveUsers(updatedUsers);
+
+  // Update the current user
+  const updatedUser = { ...currentUser, password };
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
+
+  return { user: updatedUser };
+}
+
+export async function deleteAccount(): Promise<void> {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error('No user logged in');
+  }
+
+  const users = getUsers();
+  const updatedUsers = users.filter((user) => user.id !== currentUser.id);
+
+  saveUsers(updatedUsers);
+
+  // Remove current user from localStorage
+  localStorage.removeItem(CURRENT_USER_KEY);
 }

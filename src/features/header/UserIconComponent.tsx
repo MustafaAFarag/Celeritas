@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function UserIconComponent() {
   return (
     <Link
-      to="/login"
+      to="/account-settings"
       className="flex transform items-center rounded-lg bg-primary p-2 text-white shadow-md transition-transform duration-200 hover:scale-110 hover:bg-opacity-90"
       aria-label="Login/Signup"
     >
