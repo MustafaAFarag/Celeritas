@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { type Product } from '../services/apiProducts';
 import { FaStar, FaTag } from 'react-icons/fa';
 
@@ -12,7 +13,8 @@ function ProductCardListing({ product, className }: ProductCardListingProps) {
     : product.price;
 
   return (
-    <div
+    <Link
+      to={`/product-detail?productId=${product.id}`}
       className={`rounded-lg border bg-white p-6 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl dark:bg-gray-800 ${className}`}
     >
       {/* Product Image */}
@@ -63,7 +65,7 @@ function ProductCardListing({ product, className }: ProductCardListingProps) {
       <button className="mt-3 w-full rounded-md bg-blue-500 py-2 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
         Add to Cart
       </button>
-    </div>
+    </Link>
   );
 }
 

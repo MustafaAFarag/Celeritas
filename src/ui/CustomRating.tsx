@@ -1,19 +1,20 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 type CustomRatingProps = {
   value: number;
   onChange: (rating: number) => void;
-  max?: number;
+  max: number;
 };
 
 function CustomRating({ value, onChange, max = 5 }: CustomRatingProps) {
   const [hover, setHover] = useState<number | null>(null);
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const ratingValue = parseInt(e.target.value);
-    onChange(ratingValue);
-  }
+  console.log(value);
+  const handleRating = (rating: number) => {
+    if (onChange) {
+      onChange(rating);
+    }
+  };
 
   return (
     <div className="flex">
@@ -25,16 +26,16 @@ function CustomRating({ value, onChange, max = 5 }: CustomRatingProps) {
               type="radio"
               name="rating"
               value={ratingValue}
-              onChange={handleChange}
+              onClick={() => handleRating(ratingValue)}
               className="hidden"
             />
             <FaStar
               className={`mr-1 h-5 w-5 transition-colors duration-200 md:h-7 md:w-7 ${
                 ratingValue <= (hover || value)
                   ? hover
-                    ? 'text-yellow-300'
-                    : 'text-yellow-400'
-                  : 'text-gray-300'
+                    ? 'text-yellow-300' // Hover color
+                    : 'text-yellow-400' // Submitted rating color
+                  : 'text-gray-300' // Unrated color
               }`}
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
