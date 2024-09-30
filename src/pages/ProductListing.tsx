@@ -1,7 +1,6 @@
-// ProductListing.tsx
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { fetchProducts, Product } from '../services/apiProducts';
 import {
   type FilterState,
@@ -17,7 +16,7 @@ function ProductListing() {
   const navigate = useNavigate();
 
   const query = searchParams.get('query') || '';
-  const [filterState, setFilterState] = useState<FilterState>(
+  const [filterState, setFilterState] = useState<FilterState>(() =>
     initialFilterState(searchParams),
   );
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -29,16 +28,25 @@ function ProductListing() {
     isLoading,
     isError,
   } = useQuery<Product[], Error>({
-    queryKey: ['products', query],
+    queryKey: ['products'],
     queryFn: fetchProducts,
   });
 
-  useEffect(() => {
+  const applyFilters = useCallback(() => {
     if (products) {
       const filtered = filterProducts(products, query, filterState);
       setFilteredProducts(filtered);
+      setCurrentPage(1);
     }
   }, [products, query, filterState]);
+
+  useEffect(() => {
+    setFilterState(initialFilterState(searchParams));
+  }, [searchParams]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   function handleApplyFilters(newFilters: FilterState) {
     setFilterState(newFilters);

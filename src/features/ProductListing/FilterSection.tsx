@@ -76,7 +76,7 @@ function FilterSection({
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <span className="text-sm">
+        <span className="text-lg">
           Price Range: ${inputFilters.priceRange[0]} - $
           {inputFilters.priceRange[1]}
         </span>
@@ -88,7 +88,7 @@ function FilterSection({
           className="custom-slider w-64"
           range
           min={0}
-          max={5000}
+          max={40000}
         />
       </div>
 

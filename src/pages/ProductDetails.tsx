@@ -20,6 +20,10 @@ function ProductDetails() {
     enabled: !!productId,
   });
 
+  const originalPrice: number | undefined = product?.discountPercentage
+    ? product?.price / (1 - product?.discountPercentage / 100)
+    : product?.price;
+
   const [userRating, setUserRating] = useState<number>(0);
 
   useEffect(
@@ -89,9 +93,14 @@ function ProductDetails() {
               {product.discountPercentage}%
             </span>
           </p>
-          <p className="text-3xl font-bold text-green-600">
-            ${product.price.toFixed(2)}
-          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-medium text-gray-500 line-through">
+              ${originalPrice?.toFixed(2)}
+            </span>
+            <span className="text-2xl font-semibold text-text">
+              ${product.price.toFixed(2)}
+            </span>
+          </div>
         </div>
 
         <div>

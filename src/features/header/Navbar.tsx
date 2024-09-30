@@ -1,20 +1,35 @@
-// components/HeaderNavBar.tsx
 import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
-    <ul className="flex space-x-10 text-xl">
+    <ul className="flex translate-x-28 space-x-10 text-xl">
       <li>
         <Link
-          to="/"
+          to="/products"
           className="text-text transition-colors duration-300 hover:text-primary"
         >
-          Home
+          All
         </Link>
       </li>
       <li>
         <Link
-          to="/"
+          to="/products?category=beauty"
+          className="text-text transition-colors duration-300 hover:text-primary"
+        >
+          Beauty
+        </Link>
+      </li>
+      <li>
+        <Link
+          to="/products?category=furniture"
+          className="text-text transition-colors duration-300 hover:text-primary"
+        >
+          House-Appliances
+        </Link>
+      </li>
+      <li>
+        <Link
+          to="/products?category=laptops"
           className="text-text transition-colors duration-300 hover:text-primary"
         >
           Electronics
@@ -22,42 +37,18 @@ function NavBar() {
       </li>
       <li>
         <Link
-          to="/"
+          to="/products?category=clothes"
           className="text-text transition-colors duration-300 hover:text-primary"
         >
-          Appliances
+          Clothes
         </Link>
       </li>
       <li>
         <Link
-          to="/"
+          to="/products?category=vehicle"
           className="text-text transition-colors duration-300 hover:text-primary"
         >
-          Packages
-        </Link>
-      </li>
-      <li>
-        <Link
-          to="/cart"
-          className="text-text transition-colors duration-300 hover:text-primary"
-        >
-          Samsungs
-        </Link>
-      </li>
-      <li>
-        <Link
-          to="/login"
-          className="text-text transition-colors duration-300 hover:text-primary"
-        >
-          Iphones
-        </Link>
-      </li>
-      <li>
-        <Link
-          to="/admin"
-          className="text-text transition-colors duration-300 hover:text-primary"
-        >
-          Macs
+          Vechicles
         </Link>
       </li>
     </ul>

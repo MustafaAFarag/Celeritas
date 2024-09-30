@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link for navigation
-import { FaSignOutAlt } from 'react-icons/fa'; // Importing logout icon
+import { Link, useNavigate } from 'react-router-dom';
+import { FaSignOutAlt } from 'react-icons/fa';
 import Logo from './Logo';
 import NavBar from '../features/header/Navbar';
 import ThemeToggle from '../features/header/ThemeToggle';
 import CartIcon from '../features/header/CartIcon';
 import UserIconComponent from '../features/header/UserIconComponent';
 import SearchBar from '../features/header/SearchBar';
-import { getCurrentUser, logout, type User } from '../services/apiAuth'; // Import the logout function
+import { getCurrentUser, logout, type User } from '../services/apiAuth';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 function Header() {
@@ -66,7 +66,7 @@ function Header() {
         <div className="container mx-auto flex max-w-[120rem] items-center justify-between">
           <Logo />
           <NavBar />
-          <div className="flex items-center space-x-3">
+          <div className="flex translate-x-28 items-center space-x-3">
             <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             <CartIcon />
             {user ? (
