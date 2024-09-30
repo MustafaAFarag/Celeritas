@@ -46,11 +46,11 @@ function ProductDetails() {
     return <div className="text-center text-lg">No product found</div>;
 
   return (
-    <div className="container mx-auto mt-10 flex flex-wrap gap-8 rounded-lg p-6 shadow-lg">
+    <div className="container mx-auto mt-10 flex flex-wrap gap-8 rounded-lg bg-header-background p-6 shadow-lg">
       <img
         src={product.thumbnail}
         alt={product.title}
-        className="mb-4 h-[460px] w-[460px] rounded-lg object-contain shadow-lg transition-transform duration-300 hover:scale-105"
+        className="mb-4 h-[460px] w-[460px] rounded-lg object-contain shadow-lg transition-transform duration-300"
       />
 
       <div className="w-full space-y-6 md:w-1/2">

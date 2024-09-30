@@ -15,6 +15,7 @@ module.exports = {
         'nochange-text': 'var(--nochange-text)',
         'nochange-background': 'var(--nochange-background)',
         'sellers-background': 'var(--sellers-background)',
+        'background-secondary': 'var(--background-secondary)',
       },
     },
   },

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Import Link for navigation
 import { FaSignOutAlt } from 'react-icons/fa'; // Importing logout icon
 import Logo from './Logo';
 import NavBar from '../features/header/Navbar';
@@ -13,6 +13,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 function Header() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const toggleTheme = () => {
@@ -34,9 +35,9 @@ function Header() {
 
   // Handle logout
   const handleLogout = async () => {
-    await logout(); // Perform the logout action
+    await logout();
+    navigate('/');
     queryClient.invalidateQueries({ queryKey: ['user'] });
-    queryClient.setQueryData(['user'], null);
   };
 
   // Animation variants
@@ -77,6 +78,7 @@ function Header() {
                 >
                   <FaSignOutAlt className="text-xl" />
                 </button>
+                <p>Welcome {user.full_name}</p>
               </div>
             ) : (
               <div className="flex space-x-4">
