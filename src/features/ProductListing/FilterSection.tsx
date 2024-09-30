@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// FilterSection.tsx
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { type FilterState } from './filterTypes';
 import { type Product } from '../../services/apiProducts';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getBrandOptions, getCategoryOptions } from './filterUtils';
 
 interface FilterSectionProps {
@@ -21,7 +19,11 @@ function FilterSection({
 }: FilterSectionProps) {
   const [inputFilters, setInputFilters] = useState<FilterState>(filterState);
 
-  const handleInputChange = (key: keyof FilterState, value: any) => {
+  useEffect(() => {
+    setInputFilters(filterState);
+  }, [filterState]);
+
+  const handleInputChange = (key: keyof FilterState, value: unknown) => {
     setInputFilters((prev) => ({ ...prev, [key]: value }));
   };
 
