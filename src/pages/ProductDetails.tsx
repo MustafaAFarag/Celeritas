@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getProductById, type Product } from '../services/apiProducts';
 import { FaStar, FaTag } from 'react-icons/fa';
 import CustomRating from '../ui/CustomRating';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 function ProductDetails() {
@@ -25,18 +25,26 @@ function ProductDetails() {
     : product?.price;
 
   const [userRating, setUserRating] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [totalPrice, setTotalPrice] = useState<number>(product?.price || 0);
 
   useEffect(
     function () {
       if (product) {
         setUserRating(product.rating);
+        setTotalPrice(product.price * quantity);
       }
     },
-    [product],
+    [product, quantity],
   );
   function handleRatingChange(newRating: number) {
     setUserRating(newRating);
     toast.success('Rating will not change as I am using a Dummy API');
+  }
+
+  function handleQuantityChange(event: ChangeEvent<HTMLSelectElement>) {
+    const selectedQuanttiy = Number(event.target.value);
+    setQuantity(selectedQuanttiy);
   }
 
   if (isLoading) return <div className="text-center text-lg">Loading...</div>;
@@ -93,14 +101,14 @@ function ProductDetails() {
               {product.discountPercentage}%
             </span>
           </p>
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-medium text-gray-500 line-through">
-              ${originalPrice?.toFixed(2)}
-            </span>
-            <span className="text-2xl font-semibold text-text">
-              ${product.price.toFixed(2)}
-            </span>
-          </div>
+
+          <p>Unit Price</p>
+          <span className="mr-3 text-lg font-medium text-gray-500 line-through">
+            ${originalPrice?.toFixed(2)}
+          </span>
+          <span className="text-2xl font-semibold text-text">
+            ${product.price.toFixed(2)}
+          </span>
         </div>
 
         <div>
@@ -113,6 +121,7 @@ function ProductDetails() {
           <select
             id="quantity"
             className="mt-1 w-24 rounded-md border-gray-300 bg-background text-xl text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            onChange={handleQuantityChange}
           >
             {Array.from({ length: product.stock }, (_, i) => (
               <option key={i} value={i + 1}>
@@ -120,6 +129,11 @@ function ProductDetails() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="mt-2 text-2xl text-text">
+          Total Price:{' '}
+          <span className="font-semibold">${totalPrice.toFixed(2)}</span>
         </div>
 
         <div className="flex flex-col gap-4">

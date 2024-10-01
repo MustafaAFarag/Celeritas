@@ -10,6 +10,7 @@ import { filterProducts } from '../features/ProductListing/filterUtils';
 import FilterSection from '../features/ProductListing/FilterSection';
 import ProductGrid from '../features/ProductListing/ProductGrid';
 import PaginationSection from '../features/ProductListing/PaginationSection';
+import toast from 'react-hot-toast';
 
 function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,6 +33,13 @@ function ProductListing() {
     queryFn: fetchProducts,
   });
 
+  let category = filterState.category || searchParams.get('category');
+  const brand = filterState.brand || searchParams.get('brand');
+
+  if (category === 'all-category') {
+    category = 'all categories';
+  }
+
   const applyFilters = useCallback(() => {
     if (products) {
       const filtered = filterProducts(products, query, filterState);
@@ -41,7 +49,8 @@ function ProductListing() {
   }, [products, query, filterState]);
 
   useEffect(() => {
-    setFilterState(initialFilterState(searchParams));
+    const initFilters = initialFilterState(searchParams);
+    setFilterState(initFilters);
   }, [searchParams]);
 
   useEffect(() => {
@@ -49,20 +58,34 @@ function ProductListing() {
   }, [applyFilters]);
 
   function handleApplyFilters(newFilters: FilterState) {
-    setFilterState(newFilters);
+    setFilterState((prevState) => ({
+      ...prevState,
+      ...newFilters,
+    }));
     updateSearchParams(newFilters);
+    toast.success('Filters have been applied');
   }
 
   function updateSearchParams(filters: FilterState) {
     const params = new URLSearchParams(searchParams);
+
     if (query) params.set('query', query);
+
     Object.entries(filters).forEach(([key, value]) => {
-      if (value !== initialFilterState()[key as keyof FilterState]) {
-        params.set(key, String(value));
+      if (key === 'priceRange' && Array.isArray(value)) {
+        // Ensure value is an array
+        params.set('minPrice', String(value[0]));
+        params.set('maxPrice', String(value[1]));
       } else {
-        params.delete(key);
+        // Assuming initialFilterState() returns the correct initial value for the respective key
+        if (value !== initialFilterState()[key as keyof FilterState]) {
+          params.set(key, String(value));
+        } else {
+          params.delete(key);
+        }
       }
     });
+
     setSearchParams(params);
     navigate(`/products?${params.toString()}`);
   }
@@ -81,13 +104,20 @@ function ProductListing() {
     indexOfFirstProduct,
     indexOfLastProduct,
   );
+  console.log(category);
 
   return (
     <div className="flex min-h-screen flex-col">
       <div className="container mx-auto flex-grow p-4">
         <div className="flex items-center justify-between">
           <h2 className="mb-6 text-2xl font-semibold">
-            {query ? `Search Results for "${query}"` : 'All Products'}
+            {query
+              ? `Search Results for "${query}"`
+              : category
+                ? `Products for ${category}`
+                : brand
+                  ? `Products for ${brand}`
+                  : 'All Products'}
           </h2>
 
           <FilterSection

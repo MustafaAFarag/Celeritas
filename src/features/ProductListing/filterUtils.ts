@@ -47,6 +47,8 @@ export function getBrandOptions(products: Product[]) {
   const brands = Array.from(new Set(products.map((product) => product.brand)));
   return [
     { label: 'All Brands', value: 'all-brand' },
-    ...brands.map((brand) => ({ label: brand, value: brand })),
+    ...brands
+      .sort((a, b) => a.localeCompare(b)) // Sort brands alphabetically
+      .map((brand) => ({ label: brand, value: brand })),
   ];
 }

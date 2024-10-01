@@ -24,7 +24,23 @@ function FilterSection({
   }, [filterState]);
 
   const handleInputChange = (key: keyof FilterState, value: unknown) => {
-    setInputFilters((prev) => ({ ...prev, [key]: value }));
+    setInputFilters((prev) => {
+      // Ensure that the min price is not greater than the max price
+      if (key === 'priceRange' && Array.isArray(value)) {
+        const [min, max] = value as [number, number];
+
+        // Ensure min is not greater than max and max is not lower than min
+        if (min > max) {
+          return { ...prev, priceRange: [max, max] }; // Set both to max if min is greater
+        } else if (max < min) {
+          return { ...prev, priceRange: [min, min] }; // Set both to min if max is smaller
+        }
+
+        return { ...prev, priceRange: [min, max] }; // Keep valid price range
+      }
+
+      return { ...prev, [key]: value };
+    });
   };
 
   const categoryOptions = getCategoryOptions(products);
