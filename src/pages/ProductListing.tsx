@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  console.log(searchParams)
 
   const query = searchParams.get('query') || '';
   const [filterState, setFilterState] = useState<FilterState>(() =>
@@ -104,7 +105,6 @@ function ProductListing() {
     indexOfFirstProduct,
     indexOfLastProduct,
   );
-  console.log(category);
 
   return (
     <div className="flex min-h-screen flex-col">
