@@ -12,7 +12,7 @@ type DropdownMenuProps = {
   visibleDropdown: string | null;
   handleMouseEnter: (dropdown: string) => void;
   handleMouseLeave: () => void;
-  brandSectionIndex?: number; // New prop to indicate where brands start
+  brandSectionIndex?: number;
 };
 
 function DropdownMenu({
@@ -37,16 +37,16 @@ function DropdownMenu({
         {title}
       </Link>
       {visibleDropdown === title.toLowerCase() && (
-        <ul className="absolute left-0 w-64 bg-white p-2 shadow-lg">
+        <ul className="absolute left-0 w-64 bg-background p-2 shadow-lg">
           {items.map((item, index) => (
             <>
               {brandSectionIndex !== undefined &&
                 index === brandSectionIndex && (
-                  <li className="border-t border-gray-200 px-2 py-2 font-bold text-gray-500">
+                  <li className="border-t border-gray-200 px-2 py-2 font-bold text-gray-400">
                     Brands
                   </li>
                 )}
-              <li className="hover:bg-gray-100">
+              <li className="hover:bg-header-background">
                 <Link to={item.link} className="block p-2">
                   {item.label}
                 </Link>

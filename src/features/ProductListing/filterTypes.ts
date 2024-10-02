@@ -10,7 +10,7 @@ export const initialFilterState = (
 ): FilterState => ({
   category: searchParams?.get('category') || '',
   brand: searchParams?.get('brand') || '',
-  inStock: searchParams?.get('inStock') === 'true',
+  inStock: searchParams?.get('inStock') === 'true' || true,
   priceRange: [
     Number(searchParams?.get('minPrice')) || 0,
     Number(searchParams?.get('maxPrice')) || 40000,

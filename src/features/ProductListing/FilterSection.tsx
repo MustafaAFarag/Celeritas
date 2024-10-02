@@ -25,21 +25,19 @@ function FilterSection({
 
   const handleInputChange = (key: keyof FilterState, value: unknown) => {
     setInputFilters((prev) => {
-      // Ensure that the min price is not greater than the max price
-      if (key === 'priceRange' && Array.isArray(value)) {
-        const [min, max] = value as [number, number];
+      let newFilters = { ...prev, [key]: value };
 
-        // Ensure min is not greater than max and max is not lower than min
-        if (min > max) {
-          return { ...prev, priceRange: [max, max] }; // Set both to max if min is greater
-        } else if (max < min) {
-          return { ...prev, priceRange: [min, min] }; // Set both to min if max is smaller
-        }
-
-        return { ...prev, priceRange: [min, max] }; // Keep valid price range
+      // If category is selected, reset brand
+      if (key === 'category' && value !== prev.category) {
+        newFilters = { ...newFilters, brand: 'all-brand' }; // Reset brand
       }
 
-      return { ...prev, [key]: value };
+      // If brand is selected, reset category
+      if (key === 'brand' && value !== prev.brand) {
+        newFilters = { ...newFilters, category: 'all-category' }; // Reset category
+      }
+
+      return newFilters;
     });
   };
 

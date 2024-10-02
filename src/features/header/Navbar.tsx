@@ -40,11 +40,16 @@ function NavBar() {
           { label: 'Chic Cosmetics', link: '/products?brand=Chic Cosmetics' },
           { label: 'Dior', link: '/products?brand=Dior' },
           { label: 'Dolce & Gabbana', link: '/products?brand=Dolce & Gabbana' },
+          {
+            label: 'Gucci',
+            link: '/products?brand=Gucci',
+          },
         ]}
       />
+
       {/* HOUSE APPLIANCES SECTION */}
       <DropdownMenu
-        title="House-Appliances"
+        title="Home & Kitchen"
         link="/products?category=furniture"
         visibleDropdown={visibleDropdown}
         handleMouseEnter={handleMouseEnter}
@@ -76,7 +81,7 @@ function NavBar() {
 
       <DropdownMenu
         title="Electronics"
-        link="/products?category=electronics"
+        link="/products?category=laptops"
         visibleDropdown={visibleDropdown}
         handleMouseEnter={handleMouseEnter}
         handleMouseLeave={handleMouseLeave}
@@ -100,20 +105,16 @@ function NavBar() {
         ]}
       />
 
-      {/* CLOTHES SECTION */}
+      {/* Fashion & Accessories SECTION */}
 
       <DropdownMenu
-        title="Clothes"
+        title="Fashion & Accessories"
         link="/products?category=mens-shirts"
         visibleDropdown={visibleDropdown}
         handleMouseEnter={handleMouseEnter}
         handleMouseLeave={handleMouseLeave}
         brandSectionIndex={9}
         items={[
-          {
-            label: 'Sports Accessories',
-            link: '/products?category=sports-accessories',
-          },
           { label: 'Mens Shirts', link: '/products?category=mens-shirts' },
           { label: 'Mens Shoes', link: '/products?category=mens-shoes' },
           { label: 'Mens Watches', link: '/products?category=mens-watches' },
@@ -130,6 +131,10 @@ function NavBar() {
           {
             label: 'Womens Watches',
             link: '/products?category=womens-watches',
+          },
+          {
+            label: 'Sports Accessories',
+            link: '/products?category=sports-accessories',
           },
           // Brand Section
 
@@ -149,6 +154,14 @@ function NavBar() {
             label: 'Rolex',
             link: '/products?brand=Rolex',
           },
+          {
+            label: 'Nike',
+            link: '/products?brand=Nike',
+          },
+          {
+            label: 'Puma',
+            link: '/products?brand=Puma',
+          },
         ]}
       />
 
@@ -166,6 +179,13 @@ function NavBar() {
           { label: 'Motorcycles', link: '/products?category=motorcycle' },
           { label: 'Chrysler', link: '/products?brand=Chrysler' },
           { label: 'Dodge', link: '/products?brand=Dodge' },
+          {
+            label: 'Generic Motors',
+            link: '/products?brand=Generic Motors',
+          },
+          { label: 'Kawasaki', link: '/products?brand=Kawasaki' },
+          { label: 'SpeedMaster', link: '/products?brand=SpeedMaster' },
+          { label: 'MotoGP', link: '/products?brand=MotoGP' },
         ]}
       />
     </ul>
