@@ -2,19 +2,24 @@ import { useState } from 'react';
 
 interface PaymentFormProps {
   totalPrice: number;
-  onClose: () => void; // New prop for closing the modal
+  onClose: () => void; // For closing the modal
+  onSubmit: () => void; // New prop for handling submission
 }
 
-function PaymentForm({ totalPrice, onClose }: PaymentFormProps) {
+function PaymentForm({ totalPrice, onClose, onSubmit }: PaymentFormProps) {
   const [cardNumber, setCardNumber] = useState<string>('');
   const [expiryDate, setExpiryDate] = useState<string>('');
+  const [NameOnCard, setNameOnCard] = useState<string>('');
   const [cvv, setCvv] = useState<string>('');
 
   const handlePaymentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle payment submission logic here
-    // Close modal after submission
-    alert('Payment confirmed!');
+    // Optionally add payment validation here
+
+    // Call the onSubmit function to handle the actual form submission
+    onSubmit();
+
+    // Close the modal after successful payment
     onClose();
   };
 
@@ -43,6 +48,20 @@ function PaymentForm({ totalPrice, onClose }: PaymentFormProps) {
             type="text"
             value={expiryDate}
             onChange={(e) => setExpiryDate(e.target.value)}
+            className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
+            placeholder="MM/YY"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-lg font-medium text-gray-700">
+            Name on Card:
+          </label>
+          <input
+            type="text"
+            value={NameOnCard}
+            onChange={(e) => setNameOnCard(e.target.value)}
             className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
             placeholder="MM/YY"
             required

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { type Product } from '../services/apiProducts';
 
-type CartItem = Product & {
+export type CartItem = Product & {
   quantity: number;
 };
 

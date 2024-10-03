@@ -1,12 +1,15 @@
-import { FormEvent, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { FormEvent, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'; // Add useNavigate
 import { useUser } from '../features/authentication/useUser';
 import PaymentForm from '../features/OrderDetails/PaymentForm';
 import Modal from '../ui/Modal';
+import { useCart } from '../context/CartContext';
 
 function OrderDetails() {
   const { user } = useUser();
   const location = useLocation();
+  const navigate = useNavigate(); // Use navigate for redirection
+  const { cartItems, clearCart } = useCart(); // Assuming cartItems and clearCart from your cart context
   const [fullName, setFullName] = useState<string>(user?.full_name ?? '');
   const [phoneNumber, setPhoneNumber] = useState<string>('01294790041');
   const [address, setAddress] = useState<string>('Alexandria, Egypt');
@@ -17,16 +20,44 @@ function OrderDetails() {
   const baseTotalPrice = location.state?.totalPrice || 0;
   const totalPrice = isPriority ? baseTotalPrice + 25 : baseTotalPrice;
 
+  // Function to generate a fake order ID
+  const generateOrderId = () => {
+    return `ORD-${Math.floor(Math.random() * 1000000)}`;
+  };
+
+  useEffect(
+    function () {
+      if (user) {
+        setFullName(user.full_name);
+      }
+    },
+    [user],
+  );
+
   const handleOrderSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Open modal if payment is by Credit Card
+    const orderId = generateOrderId();
+
     if (paymentMethod === 'Credit Card') {
       setIsModalOpen(true);
     } else {
-      // Handle order submission without modal (e.g., for Cash on Delivery)
-      // Here, you might want to add logic to finalize the order.
-      alert('Order submitted successfully! (Cash on Delivery)');
+      // For Cash on Delivery or after Credit Card submission
+      finalizeOrder(orderId);
     }
+  };
+
+  const finalizeOrder = (orderId: string) => {
+    clearCart();
+
+    // Navigate to the FinalOrder page with state
+    navigate('/final-order', {
+      state: {
+        orderId,
+        products: cartItems,
+        totalPrice,
+        isPriority,
+      },
+    });
   };
 
   const handleCloseModal = () => {
@@ -126,7 +157,11 @@ function OrderDetails() {
 
       {/* Modal for PaymentForm */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <PaymentForm totalPrice={totalPrice} onClose={handleCloseModal} />
+        <PaymentForm
+          totalPrice={totalPrice}
+          onClose={handleCloseModal}
+          onSubmit={() => finalizeOrder(generateOrderId())} // On successful payment
+        />
       </Modal>
     </div>
   );

@@ -13,6 +13,7 @@ import AccountSettings from './pages/AccountSettings';
 import Cart from './pages/Cart';
 import { CartProvider } from './context/CartContext';
 import OrderDetails from './pages/OrderDetails';
+import FinalOrder from './pages/FinalOrder';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
               <Route path="/account-settings" element={<AccountSettings />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/order-details" element={<OrderDetails />} />
+              <Route path="/final-order" element={<FinalOrder />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
