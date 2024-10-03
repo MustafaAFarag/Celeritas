@@ -11,14 +11,6 @@ generated receipt will appear on the screen, this receipt will be sent via email
 
 ● Supported Payment Methods: There are two payment options/methods (Credit card – cash on delivery).
 
-● Feedback: Further features include a feedback option and a complain box. In case of any mishap, the user can submit a complaint that will be sent to the seller’s email.
-
-● CRUD Operations: The System should have a feature on the admin site to create/add new products or
-update the existing product. Also if the product is out of stock or old the admin can delete the product.
-
-● Coupons: The system should have a coupon feature on the admin site which allows the admin to offer
-coupons to users for marketing.
-
 ● Order: The system should have the order page, the page shows all delivered and in-progress orders (with the duration of delivery).
 
 ● Compute Shipping time: The system should show the user how much time it will take to deliver the
@@ -41,8 +33,6 @@ the system is recovered, the system should have the capability to recover with e
 
 ● Maintainability: The system should be capable of finding and fixing bugs with minimum resources and
 time.
-
-● Pagination - Moving sliders
 
 Pages =>
 

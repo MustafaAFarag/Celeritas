@@ -5,10 +5,12 @@ import { FaStar, FaTag } from 'react-icons/fa';
 import CustomRating from '../ui/CustomRating';
 import { ChangeEvent, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useCart } from '../context/CartContext'; // import Cart context
 
 function ProductDetails() {
   const [searchParams] = useSearchParams();
   const productId = searchParams.get('productId');
+  const { addToCart } = useCart(); // access addToCart from context
 
   const {
     data: product,
@@ -37,14 +39,26 @@ function ProductDetails() {
     },
     [product, quantity],
   );
+
   function handleRatingChange(newRating: number) {
     setUserRating(newRating);
     toast.success('Rating will not change as I am using a Dummy API');
   }
 
   function handleQuantityChange(event: ChangeEvent<HTMLSelectElement>) {
-    const selectedQuanttiy = Number(event.target.value);
-    setQuantity(selectedQuanttiy);
+    const selectedQuantity = Number(event.target.value);
+    setQuantity(selectedQuantity);
+  }
+
+  function handleAddToCart() {
+    if (!product) return;
+
+    addToCart({
+      ...product,
+      quantity,
+    });
+
+    toast.success(`${product.title} added to cart!`);
   }
 
   if (isLoading) return <div className="text-center text-lg">Loading...</div>;
@@ -148,7 +162,10 @@ function ProductDetails() {
           />
         </div>
 
-        <button className="w-full rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring focus:ring-indigo-300 md:w-auto">
+        <button
+          className="w-full rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring focus:ring-indigo-300 md:w-auto"
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </button>
       </div>

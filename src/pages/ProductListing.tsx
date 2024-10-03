@@ -11,11 +11,16 @@ import FilterSection from '../features/ProductListing/FilterSection';
 import ProductGrid from '../features/ProductListing/ProductGrid';
 import PaginationSection from '../features/ProductListing/PaginationSection';
 import toast from 'react-hot-toast';
+import { useCart } from '../context/CartContext';
 
 function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
-  console.log(searchParams)
+
+  const handleAddToCart = (product: Product) => {
+    addToCart({ ...product, quantity: 1 });
+  };
 
   const query = searchParams.get('query') || '';
   const [filterState, setFilterState] = useState<FilterState>(() =>
@@ -127,7 +132,7 @@ function ProductListing() {
           />
         </div>
 
-        <ProductGrid products={currentProducts} />
+        <ProductGrid products={currentProducts} onAddToCart={handleAddToCart} />
       </div>
 
       <PaginationSection

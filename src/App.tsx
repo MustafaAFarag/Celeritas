@@ -10,6 +10,8 @@ import Signup from './pages/Signup';
 import ProductListing from './pages/ProductListing';
 import ProductDetails from './pages/ProductDetails';
 import AccountSettings from './pages/AccountSettings';
+import Cart from './pages/Cart';
+import { CartProvider } from './context/CartContext';
 
 const queryClient = new QueryClient();
 
@@ -17,24 +19,27 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route
-            element={
-              // <ProtectedRoute>
-              <AppLayout />
-              // </ProtectedRoute>
-            }
-          >
-            <Route path="/" element={<Homepage />} />
-            <Route path="/product-detail" element={<ProductDetails />} />
-            <Route path="/products" element={<ProductListing />} />
-            <Route path="/account-settings" element={<AccountSettings />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              element={
+                // <ProtectedRoute>
+                <AppLayout />
+                // </ProtectedRoute>
+              }
+            >
+              <Route path="/" element={<Homepage />} />
+              <Route path="/product-detail" element={<ProductDetails />} />
+              <Route path="/products" element={<ProductListing />} />
+              <Route path="/account-settings" element={<AccountSettings />} />
+              <Route path="/cart" element={<Cart />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
       <Toaster
         position="top-center"
         gutter={12}

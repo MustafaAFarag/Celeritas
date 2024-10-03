@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import CartBanner from './CartBanner';
 
 function AppLayout() {
   return (
@@ -9,6 +10,7 @@ function AppLayout() {
       <main className="flex-1 bg-background p-8 text-text md:p-12">
         <Outlet />
       </main>
+      <CartBanner />
       <Footer />
     </div>
   );

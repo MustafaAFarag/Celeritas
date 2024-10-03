@@ -1,21 +1,39 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { type Product } from '../services/apiProducts';
 import { FaStar, FaTag } from 'react-icons/fa';
+import { MouseEvent } from 'react';
+import toast from 'react-hot-toast';
 
 type ProductCardListingProps = {
   product: Product;
   className?: string;
+  onAddToCart: (product: Product) => void; // New prop for adding to cart
 };
 
-function ProductCardListing({ product, className }: ProductCardListingProps) {
+function ProductCardListing({
+  product,
+  className,
+  onAddToCart,
+}: ProductCardListingProps) {
+  const navigate = useNavigate();
   const originalPrice = product.discountPercentage
     ? product.price / (1 - product.discountPercentage / 100)
     : product.price;
 
+  const handleCardClick = () => {
+    navigate(`/product-detail?productId=${product.id}`);
+  };
+
+  const handleAddToCartClick = (e: MouseEvent) => {
+    e.stopPropagation(); // Prevent the card click event from firing
+    onAddToCart(product); // Call the onAddToCart function passed from the parent component
+    toast.success(`${product.title} has been added to your cart!`); // Show toast notification
+  };
+
   return (
-    <Link
-      to={`/product-detail?productId=${product.id}`}
-      className={`rounded-lg border bg-white p-6 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl dark:bg-gray-800 ${className}`}
+    <div
+      onClick={handleCardClick}
+      className={`rounded-lg border bg-white p-6 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:cursor-pointer hover:shadow-2xl dark:bg-gray-800 ${className}`}
     >
       {/* Product Image */}
       <img
@@ -61,11 +79,13 @@ function ProductCardListing({ product, className }: ProductCardListingProps) {
         </div>
       </div>
 
-      {/* Add to Cart Button */}
-      <button className="mt-3 w-full rounded-md bg-blue-500 py-2 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
+      <button
+        onClick={handleAddToCartClick}
+        className="mt-3 w-full rounded-md bg-blue-500 py-2 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+      >
         Add to Cart
       </button>
-    </Link>
+    </div>
   );
 }
 

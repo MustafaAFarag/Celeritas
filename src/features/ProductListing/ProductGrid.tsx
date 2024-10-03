@@ -5,9 +5,10 @@ import ProductCardListing from '../../ui/ProductCardListing';
 
 interface ProductGridProps {
   products: Product[];
+  onAddToCart: (product: Product) => void; // New prop for adding to cart
 }
 
-function ProductGrid({ products }: ProductGridProps) {
+function ProductGrid({ products, onAddToCart }: ProductGridProps) {
   return (
     <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {products.length > 0 ? (
@@ -16,6 +17,7 @@ function ProductGrid({ products }: ProductGridProps) {
             key={product.id}
             product={product}
             className="min-w-[220px]"
+            onAddToCart={onAddToCart}
           />
         ))
       ) : (
