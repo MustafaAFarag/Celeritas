@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 
 function Cart() {
   const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } =
     useCart();
+  const navigate = useNavigate(); // Initialize navigate function
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -13,6 +15,12 @@ function Cart() {
   if (cartItems.length === 0) {
     return <div className="text-center text-lg">Your cart is empty</div>;
   }
+
+  const handleOrderClick = () => {
+    navigate('/order-details', {
+      state: { totalPrice }, // Pass totalPrice to OrderDetails page
+    });
+  };
 
   return (
     <div className="container mx-auto mt-10 space-y-6">
@@ -65,8 +73,14 @@ function Cart() {
         ))}
       </div>
 
-      <div className="mt-6 text-2xl font-semibold text-text">
-        Total Price: ${totalPrice.toFixed(2)}
+      <div className="mt-6 flex justify-between text-2xl font-semibold text-text">
+        <p> Total Price: ${totalPrice.toFixed(2)}</p>
+        <button
+          className="rounded-lg bg-yellow-500 px-4 py-2 text-white shadow-lg transition duration-300 hover:bg-yellow-600 focus:outline-none"
+          onClick={handleOrderClick}
+        >
+          Order!
+        </button>
       </div>
     </div>
   );
