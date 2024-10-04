@@ -10,11 +10,11 @@ function ProductsUnder({ products }: ProductsUnderProps) {
   return (
     <OffersContainer
       products={products}
-      title="Items Under $20"
+      title="Items Under $40"
       Icon={FaDollarSign}
       iconColor="text-green-500"
       filterProducts={(products) =>
-        products.filter((product) => product.price < 50 && product.price > 15)
+        products.filter((product) => product.price < 40 && product.price > 15)
       }
       linkTo="/signup"
       bgColor="bg-product-background"

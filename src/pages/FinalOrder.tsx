@@ -2,48 +2,58 @@ import { useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { type CartItem } from '../context/CartContext';
 
 function FinalOrder() {
   const location = useLocation();
   const { orderId, products, totalPrice, isPriority } = location.state || {};
 
-  // Define positions for Alexandria (van) and Cairo (man)
-  const alexandriaPosition: [number, number] = [31.236613, 29.953604]; // Alexandria coordinates
-  const cairoPosition: [number, number] = [30.0444, 31.2357]; // Cairo coordinates
+  const alexandriaPosition: [number, number] = [31.236613, 29.953604];
+  const cairoPosition: [number, number] = [30.0444, 31.2357];
 
-  // Line path from Alexandria to Cairo
-  const pathPositions: [number, number][] = [alexandriaPosition, cairoPosition];
-
-  // Custom van and man icons
   const vanIcon = new L.Icon({
-    iconUrl: 'https://img.icons8.com/ios/452/van-filled.png', // dark background van icon
+    iconUrl: 'https://img.icons8.com/ios/452/van-filled.png',
     iconSize: [40, 40],
     iconAnchor: [20, 20],
   });
 
   const manIcon = new L.Icon({
-    iconUrl: 'https://img.icons8.com/ios/452/user-male-filled.png', // dark background man icon
+    iconUrl: 'https://img.icons8.com/ios/452/user-male-filled.png',
     iconSize: [40, 40],
     iconAnchor: [20, 20],
   });
 
-  // State to hold the van's position
   const [vanPosition, setVanPosition] =
     useState<[number, number]>(alexandriaPosition);
+  const [pathPositions, setPathPositions] = useState<[number, number][]>([
+    alexandriaPosition,
+    cairoPosition,
+  ]);
 
-  // Move the van icon gradually towards Cairo
+  const estimatedDeliveryDays = isPriority
+    ? 1
+    : Math.floor(Math.random() * 3) + 1;
+
+  // Use useMemo to calculate the delivery date and time only once
+  const { formattedDeliveryDate } = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + estimatedDeliveryDays);
+    const randomHour = Math.floor(Math.random() * 2) + 8;
+    const randomMinute = Math.floor(Math.random() * 60);
+    const formattedDeliveryTime = `${randomHour}:${randomMinute.toString().padStart(2, '0')} AM`;
+    const formatted = `${date.toLocaleDateString()} (${estimatedDeliveryDays} day(s) at ${formattedDeliveryTime})`;
+    return { deliveryDate: date, formattedDeliveryDate: formatted };
+  }, [estimatedDeliveryDays]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setVanPosition((currentPosition) => {
         const [currentLat, currentLng] = currentPosition;
         const [targetLat, targetLng] = cairoPosition;
-
-        // Calculate the new position with a small step towards the target
         const latDiff = targetLat - currentLat;
         const lngDiff = targetLng - currentLng;
-        const step = 0.004; // Adjust this step size for faster or slower movement
+        const step = 0.002;
 
         const newLat =
           currentLat +
@@ -52,17 +62,18 @@ function FinalOrder() {
           currentLng +
           (lngDiff > 0 ? Math.min(step, lngDiff) : Math.max(-step, lngDiff));
 
-        // Stop the van when it reaches the destination
+        setPathPositions([[newLat, newLng], cairoPosition]);
+
         if (Math.abs(latDiff) < step && Math.abs(lngDiff) < step) {
           clearInterval(interval);
-          return cairoPosition; // Snap to final destination
+          return cairoPosition;
         }
 
         return [newLat, newLng];
       });
-    }, 500); // Update every 100ms for smooth animation
+    }, 500);
 
-    return () => clearInterval(interval); // Clean up interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -74,15 +85,28 @@ function FinalOrder() {
       <p className="mb-4 text-center text-lg font-semibold">
         Order ID: {orderId}
       </p>
+      <p className="mb-4 text-center text-lg font-semibold">
+        Estimated Arrival Date: {formattedDeliveryDate}
+      </p>
 
       <div className="mt-8">
         <h2 className="mb-4 text-2xl font-semibold">Purchased Products:</h2>
         <ul className="space-y-4">
           {products?.map((product: CartItem) => (
-            <li key={product.id} className="rounded-lg border p-4 shadow">
-              <h3 className="text-xl font-semibold">{product.title}</h3>
-              <p>Price: ${product.price}</p>
-              <p>Quantity: {product.quantity}</p>
+            <li
+              key={product.id}
+              className="flex rounded-lg border bg-white p-4 shadow"
+            >
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="mr-4 h-20 w-20 rounded object-cover"
+              />
+              <div>
+                <h3 className="text-xl font-semibold">{product.title}</h3>
+                <p>Price: ${product.price}</p>
+                <p>Quantity: {product.quantity}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -97,7 +121,7 @@ function FinalOrder() {
       <div className="mt-8">
         <h2 className="mb-4 text-xl font-semibold">Track your order:</h2>
         <MapContainer
-          center={[30.8, 30.6]} // Center between Alexandria and Cairo
+          center={[30.8, 30.6]}
           zoom={7}
           style={{ height: '600px', width: '100%' }}
         >
@@ -105,14 +129,8 @@ function FinalOrder() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-
-          {/* Moving van marker */}
           <Marker position={vanPosition} icon={vanIcon} />
-
-          {/* Static man marker (Cairo) */}
           <Marker position={cairoPosition} icon={manIcon} />
-
-          {/* Line from Alexandria to Cairo */}
           <Polyline positions={pathPositions} color="blue" weight={4} />
         </MapContainer>
       </div>
