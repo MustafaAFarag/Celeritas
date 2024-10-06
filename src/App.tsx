@@ -15,6 +15,7 @@ import { CartProvider } from './context/CartContext';
 import OrderDetails from './pages/OrderDetails';
 import FinalOrder from './pages/FinalOrder';
 import ProtectedRoute from './ui/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 const queryClient = new QueryClient();
 
@@ -22,32 +23,34 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <CartProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/account-settings" element={<AccountSettings />} />
-              <Route path="/order-details" element={<OrderDetails />} />
-              <Route path="/final-order" element={<FinalOrder />} />
-            </Route>
-            <Route element={<AppLayout />}>
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/product-detail" element={<ProductDetails />} />
-              <Route path="/products" element={<ProductListing />} />
-              <Route path="/" element={<Homepage />} />
-            </Route>
+      <AuthProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/account-settings" element={<AccountSettings />} />
+                <Route path="/order-details" element={<OrderDetails />} />
+                <Route path="/final-order" element={<FinalOrder />} />
+              </Route>
+              <Route element={<AppLayout />}>
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/product-detail" element={<ProductDetails />} />
+                <Route path="/products" element={<ProductListing />} />
+                <Route path="/" element={<Homepage />} />
+              </Route>
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </BrowserRouter>
-      </CartProvider>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
+      </AuthProvider>
       <Toaster
         position="top-center"
         gutter={12}

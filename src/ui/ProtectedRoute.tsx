@@ -1,31 +1,21 @@
-import { useEffect, useState } from 'react';
-import { getCurrentUser, type User } from '../services/apiAuth';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Loader from './Loader';
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCurrentUser() {
-      const user = await getCurrentUser();
-      setCurrentUser(user);
-      setLoading(false);
-    }
-    fetchCurrentUser();
-  }, []);
-
-  useEffect(() => {
-    if (!loading && currentUser === null) {
+    if (!state.isLoading && state.user === null) {
       navigate('/signup');
     }
-  }, [loading, currentUser, navigate]);
+  }, [state.isLoading, state.user, navigate]);
 
-  if (loading) return <Loader />;
+  if (state.isLoading) return <Loader />;
 
-  return currentUser ? children : null;
+  return state.user ? children : null;
 }
 
 export default ProtectedRoute;

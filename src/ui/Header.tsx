@@ -8,14 +8,13 @@ import ThemeToggle from '../features/header/ThemeToggle';
 import CartIcon from '../features/header/CartIcon';
 import UserIconComponent from '../features/header/UserIconComponent';
 import SearchBar from '../features/header/SearchBar';
-import { getCurrentUser, logout, type User } from '../services/apiAuth';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { logout } from '../services/apiAuth';
+import { useAuth } from '../context/AuthContext';
 
 function Header() {
-  const queryClient = useQueryClient();
+  const { state, dispatch } = useAuth();
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-
   // Detect user's system preference and set dark mode accordingly
   useEffect(() => {
     const userPrefersDark = window.matchMedia(
@@ -47,20 +46,11 @@ function Header() {
     document.body.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
 
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useQuery<User | null>({
-    queryKey: ['user'],
-    queryFn: getCurrentUser,
-  });
-
   // Handle logout
   const handleLogout = async () => {
     await logout();
+    dispatch({ type: 'REMOVE_USER' });
     navigate('/');
-    queryClient.invalidateQueries({ queryKey: ['user'] });
   };
 
   // Animation variants
@@ -74,8 +64,8 @@ function Header() {
     visible: { opacity: 1, y: 0 },
   };
 
-  if (isLoading) return <p>Loading....</p>;
-  if (error) return <p>{error.message}</p>;
+  if (state.isLoading) return <p>Loading....</p>;
+  if (state.error) return <p>{state.error.message}</p>;
 
   return (
     <>
@@ -92,7 +82,7 @@ function Header() {
           <div className="flex translate-x-28 items-center space-x-3">
             <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             <CartIcon />
-            {user ? (
+            {state.user ? (
               <div className="flex items-center space-x-4">
                 <UserIconComponent />
                 <button
@@ -101,7 +91,7 @@ function Header() {
                 >
                   <FaSignOutAlt className="text-xl" />
                 </button>
-                <p>Welcome {user.full_name}</p>
+                <p>Welcome {state.user.full_name}</p>
               </div>
             ) : (
               <div className="flex space-x-4">
