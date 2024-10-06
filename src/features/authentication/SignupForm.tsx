@@ -32,12 +32,6 @@ function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <h2 className="text-center text-4xl font-extrabold text-gray-900">
-        Sign Up
-      </h2>
-      <p className="text-center text-lg text-gray-500">
-        Create your account by filling the details below
-      </p>
       <div className="space-y-4">
         <div>
           <label

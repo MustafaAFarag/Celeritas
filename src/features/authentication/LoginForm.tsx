@@ -36,12 +36,6 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <h2 className="text-center text-4xl font-extrabold text-gray-900">
-        Login
-      </h2>
-      <p className="text-center text-lg text-gray-500">
-        Please enter your credentials to log in
-      </p>
       <div className="space-y-4">
         <div>
           <label
@@ -55,7 +49,7 @@ function LoginForm() {
             name="email"
             type="email"
             required
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
         <div>
@@ -70,7 +64,7 @@ function LoginForm() {
             name="password"
             type="password"
             required
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
       </div>
@@ -86,7 +80,7 @@ function LoginForm() {
         to="/signup"
         className="mt-4 block text-center text-lg text-blue-600 hover:underline"
       >
-        Don't have an account? <span className="font-bold">SignUp!</span>
+        Don't have an account? <span className="font-bold">Sign Up!</span>
       </Link>
     </form>
   );

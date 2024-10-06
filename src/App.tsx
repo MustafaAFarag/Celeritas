@@ -14,6 +14,7 @@ import Cart from './pages/Cart';
 import { CartProvider } from './context/CartContext';
 import OrderDetails from './pages/OrderDetails';
 import FinalOrder from './pages/FinalOrder';
+import ProtectedRoute from './ui/ProtectedRoute';
 
 const queryClient = new QueryClient();
 
@@ -26,19 +27,22 @@ function App() {
           <Routes>
             <Route
               element={
-                // <ProtectedRoute>
-                <AppLayout />
-                // </ProtectedRoute>
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
               }
             >
-              <Route path="/" element={<Homepage />} />
-              <Route path="/product-detail" element={<ProductDetails />} />
-              <Route path="/products" element={<ProductListing />} />
               <Route path="/account-settings" element={<AccountSettings />} />
-              <Route path="/cart" element={<Cart />} />
               <Route path="/order-details" element={<OrderDetails />} />
               <Route path="/final-order" element={<FinalOrder />} />
             </Route>
+            <Route element={<AppLayout />}>
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/product-detail" element={<ProductDetails />} />
+              <Route path="/products" element={<ProductListing />} />
+              <Route path="/" element={<Homepage />} />
+            </Route>
+
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>

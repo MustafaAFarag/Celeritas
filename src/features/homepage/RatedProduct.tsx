@@ -16,7 +16,7 @@ function RatedProduct({ products }: RatedProductProps) {
       filterProducts={(products) =>
         products.filter((product) => product.rating > 4)
       }
-      linkTo="/signup"
+      linkTo="/products"
       bgColor="bg-rating-background"
     />
   );

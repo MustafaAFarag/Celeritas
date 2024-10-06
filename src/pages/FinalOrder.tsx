@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { type CartItem } from '../context/CartContext';
 
 function FinalOrder() {
@@ -31,20 +31,23 @@ function FinalOrder() {
     cairoPosition,
   ]);
 
-  const estimatedDeliveryDays = isPriority
-    ? 1
-    : Math.floor(Math.random() * 3) + 1;
+  const [formattedDeliveryDate, setFormattedDeliveryDate] =
+    useState<string>('');
 
-  // Use useMemo to calculate the delivery date and time only once
-  const { formattedDeliveryDate } = useMemo(() => {
+  useEffect(() => {
+    const estimatedDeliveryDays = isPriority
+      ? 1
+      : Math.floor(Math.random() * 3) + 1;
     const date = new Date();
     date.setDate(date.getDate() + estimatedDeliveryDays);
-    const randomHour = Math.floor(Math.random() * 2) + 8;
+
+    const randomHour = Math.floor(Math.random() * 2) + 8; // Between 8 and 9 AM
     const randomMinute = Math.floor(Math.random() * 60);
     const formattedDeliveryTime = `${randomHour}:${randomMinute.toString().padStart(2, '0')} AM`;
     const formatted = `${date.toLocaleDateString()} (${estimatedDeliveryDays} day(s) at ${formattedDeliveryTime})`;
-    return { deliveryDate: date, formattedDeliveryDate: formatted };
-  }, [estimatedDeliveryDays]);
+
+    setFormattedDeliveryDate(formatted);
+  }, [isPriority]); // Runs once when `isPriority` changes
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -16,7 +16,7 @@ function DiscountProducts({ products }: DiscountProductsProps) {
       filterProducts={(products) =>
         products.filter((product) => product.discountPercentage > 18)
       }
-      linkTo="/signup"
+      linkTo="/products"
       bgColor="bg-discount-background"
     />
   );
