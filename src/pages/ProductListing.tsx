@@ -12,6 +12,8 @@ import ProductGrid from '../features/ProductListing/ProductGrid';
 import PaginationSection from '../features/ProductListing/PaginationSection';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
+import Loader from '../ui/Loader';
+import ErrorMessage from '../ui/ErrorMessage';
 
 function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -96,13 +98,8 @@ function ProductListing() {
     navigate(`/products?${params.toString()}`);
   }
 
-  if (isLoading) return <div className="py-4 text-center">Loading...</div>;
-  if (isError)
-    return (
-      <div className="py-4 text-center text-red-600">
-        Failed to load products.
-      </div>
-    );
+  if (isLoading) return <Loader />;
+  if (isError) return <ErrorMessage message="Failed to load products." />;
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

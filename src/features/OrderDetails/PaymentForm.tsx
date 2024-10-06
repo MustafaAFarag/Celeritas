@@ -95,7 +95,7 @@ function PaymentForm({ totalPrice, onClose, onSubmit }: PaymentFormProps) {
           </div>
 
           <div className="mt-6 text-lg font-semibold">
-            Total Price: ${totalPrice}
+            Total Price: ${totalPrice.toFixed(2)}
           </div>
 
           <button

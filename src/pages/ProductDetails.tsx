@@ -6,6 +6,8 @@ import CustomRating from '../ui/CustomRating';
 import { ChangeEvent, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext'; // import Cart context
+import ErrorMessage from '../ui/ErrorMessage';
+import Loader from '../ui/Loader';
 
 function ProductDetails() {
   const [searchParams] = useSearchParams();
@@ -61,13 +63,8 @@ function ProductDetails() {
     toast.success(`${product.title} added to cart!`);
   }
 
-  if (isLoading) return <div className="text-center text-lg">Loading...</div>;
-  if (isError)
-    return (
-      <div className="text-center text-lg text-red-500">
-        Error loading product details
-      </div>
-    );
+  if (isLoading) return <Loader />;
+  if (isError) return <ErrorMessage message="Error loading product details" />;
   if (!product)
     return <div className="text-center text-lg">No product found</div>;
 

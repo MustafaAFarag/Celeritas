@@ -16,10 +16,33 @@ function Header() {
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
+  // Detect user's system preference and set dark mode accordingly
+  useEffect(() => {
+    const userPrefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    setIsDarkMode(userPrefersDark);
+
+    const handleColorSchemeChange = (e: MediaQueryListEvent) => {
+      setIsDarkMode(e.matches);
+    };
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', handleColorSchemeChange);
+
+    return () => {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .removeEventListener('change', handleColorSchemeChange);
+    };
+  }, []);
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  // Apply dark or light mode class to the body
   useEffect(() => {
     document.body.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
