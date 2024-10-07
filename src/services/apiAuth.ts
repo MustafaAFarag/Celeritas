@@ -82,6 +82,7 @@ export async function login({
     };
 
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(staticUser));
+
     return { user: staticUser }; // Return the static user
   }
 

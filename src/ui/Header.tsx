@@ -14,13 +14,17 @@ import { useAuth } from '../context/AuthContext';
 function Header() {
   const { state, dispatch } = useAuth();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  // Detect user's system preference and set dark mode accordingly
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(
+    () => localStorage.getItem('darkMode') === 'true' || false,
+  );
+
   useEffect(() => {
     const userPrefersDark = window.matchMedia(
       '(prefers-color-scheme: dark)',
     ).matches;
-    setIsDarkMode(userPrefersDark);
+    if (localStorage.getItem('darkMode') === null) {
+      setIsDarkMode(userPrefersDark);
+    }
 
     const handleColorSchemeChange = (e: MediaQueryListEvent) => {
       setIsDarkMode(e.matches);
@@ -37,14 +41,17 @@ function Header() {
     };
   }, []);
 
+  useEffect(
+    function () {
+      document.body.classList.toggle('dark', isDarkMode);
+      localStorage.setItem('darkMode', String(isDarkMode));
+    },
+    [isDarkMode],
+  );
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
-
-  // Apply dark or light mode class to the body
-  useEffect(() => {
-    document.body.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
 
   // Handle logout
   const handleLogout = async () => {
