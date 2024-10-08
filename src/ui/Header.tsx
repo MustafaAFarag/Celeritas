@@ -71,9 +71,6 @@ function Header() {
     visible: { opacity: 1, y: 0 },
   };
 
-  if (state.isLoading) return <p>Loading....</p>;
-  if (state.error) return <p>{state.error.message}</p>;
-
   return (
     <>
       <motion.nav
@@ -81,7 +78,7 @@ function Header() {
         animate="visible"
         variants={headerVariants}
         transition={{ duration: 0.5 }}
-        className="sticky top-0 z-50 flex items-center justify-between bg-header-background p-4 px-16 shadow-lg"
+        className="sticky top-0 z-[999] flex items-center justify-between bg-header-background p-4 px-16 shadow-lg"
       >
         <div className="container mx-auto flex max-w-[120rem] items-center justify-between">
           <Logo />

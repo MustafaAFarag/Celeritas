@@ -27,18 +27,23 @@ function FilterSection({
     setInputFilters((prev) => {
       let newFilters = { ...prev, [key]: value };
 
-      // If category is selected, reset brand
+      // Reset brand/category if the other changes
       if (key === 'category' && value !== prev.category) {
         newFilters = { ...newFilters, brand: 'all-brand' }; // Reset brand
       }
-
-      // If brand is selected, reset category
       if (key === 'brand' && value !== prev.brand) {
         newFilters = { ...newFilters, category: 'all-category' }; // Reset category
       }
 
       return newFilters;
     });
+  };
+
+  const handlePriceChange = (value: [number, number]) => {
+    setInputFilters((prev) => ({
+      ...prev,
+      priceRange: value,
+    }));
   };
 
   const categoryOptions = getCategoryOptions(products);
@@ -52,16 +57,8 @@ function FilterSection({
         onChange={(e: DropdownChangeEvent) =>
           handleInputChange('category', e.value)
         }
-        className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 md:w-48"
+        className="w-52 rounded-md border border-gray-400 p-2 shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
         placeholder="Select a Category"
-        valueTemplate={(option) => (
-          <span className="p-2 text-lg text-text">
-            {option ? option.label : 'Select a Category'}
-          </span>
-        )}
-        itemTemplate={(option) => (
-          <span className="text-xl">{option.label}</span>
-        )}
       />
 
       <Dropdown
@@ -70,20 +67,12 @@ function FilterSection({
         onChange={(e: DropdownChangeEvent) =>
           handleInputChange('brand', e.value)
         }
+        className="w-48 rounded-md border border-gray-400 p-2 shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
         placeholder="Select a Brand"
-        className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 md:w-48"
-        valueTemplate={(option) => (
-          <span className="p-2 text-lg text-text">
-            {option ? option.label : 'Select a Brand'}
-          </span>
-        )}
-        itemTemplate={(option) => (
-          <span className="text-xl">{option.label}</span>
-        )}
       />
 
       <div className="flex items-center gap-2">
-        <span>In Stock</span>
+        <span className="font-medium text-text">In Stock</span>
         <InputSwitch
           checked={inputFilters.inStock}
           onChange={(e) => handleInputChange('inStock', e.value)}
@@ -92,25 +81,57 @@ function FilterSection({
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <span className="text-lg">
+        <span className="text-lg font-semibold text-text">
           Price Range: ${inputFilters.priceRange[0]} - $
           {inputFilters.priceRange[1]}
         </span>
+
         <Slider
           value={inputFilters.priceRange}
           onChange={(e: SliderChangeEvent) =>
-            handleInputChange('priceRange', e.value as [number, number])
+            handlePriceChange(e.value as [number, number])
           }
           className="custom-slider w-64"
           range
           min={0}
           max={40000}
         />
+
+        <div className="mt-2 flex gap-4">
+          <input
+            type="number"
+            min={0}
+            max={inputFilters.priceRange[1]}
+            value={inputFilters.priceRange[0]}
+            onChange={(e) => {
+              const value = Math.max(
+                0,
+                Math.min(inputFilters.priceRange[1], Number(e.target.value)),
+              );
+              handlePriceChange([value, inputFilters.priceRange[1]]);
+            }}
+            className="w-28 rounded-md border border-gray-300 bg-background p-2 text-lg text-text shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
+          />
+          <input
+            type="number"
+            min={inputFilters.priceRange[0] + 1}
+            max={40000}
+            value={inputFilters.priceRange[1]}
+            onChange={(e) => {
+              const value = Math.max(
+                inputFilters.priceRange[0] + 1,
+                Math.min(40000, Number(e.target.value)),
+              );
+              handlePriceChange([inputFilters.priceRange[0], value]);
+            }}
+            className="w-28 rounded-md border border-gray-300 bg-background p-2 text-lg text-text shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
+          />
+        </div>
       </div>
 
       <button
         onClick={() => onApplyFilters(inputFilters)}
-        className="hover:bg-secondary-dark mt-4 rounded-lg bg-secondary px-6 py-3 text-white transition duration-200"
+        className="hover:bg-secondary-dark mt-4 rounded-lg bg-secondary px-6 py-3 text-white transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
       >
         Apply Filters
       </button>

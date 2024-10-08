@@ -8,8 +8,8 @@ export type User = {
 };
 
 const STATIC_USER = {
-  email: 'testuser@example.com',
-  password: 'testuserpassword',
+  email: 'mustafa.ashraf.saad@gmail.com',
+  password: 'mypassword',
 };
 
 const USERS_KEY = 'mock_users';
@@ -74,9 +74,9 @@ export async function login({
   if (email === STATIC_USER.email && password === STATIC_USER.password) {
     const staticUser: User = {
       id: '1', // Static user ID
-      full_name: 'Test User',
+      full_name: 'Mustafa Ashraf',
       email: STATIC_USER.email,
-      role: 'basic',
+      role: 'admin',
       avatar: '',
       password,
     };

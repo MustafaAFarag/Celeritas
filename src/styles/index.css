@@ -13,12 +13,12 @@
   --nochange-text: #000;
   --nochange-background: #e0e0e0;
   --text: #333333;
-  --primary: #1a73e8;
-  --secondary: #fbbc05;
-  --header-background: #ebebeb;
-  --product-background: #85f17b;
-  --discount-background: #f37a7a;
-  --rating-backgorund: #f2f564;
+  --primary: #4a90e2; /* Updated */
+  --secondary: #ffb000; /* Updated */
+  --header-background: #d9d9d9; /* Updated */
+  --product-background: #a3d9a5; /* Updated */
+  --discount-background: #e57373; /* Updated */
+  --rating-backgorund: #ffd700; /* Updated */
   --sellers-background: #e5e7eb;
   --scrollbar-track: #e0e0e0;
   --scrollbar-thumb: #888;
@@ -28,12 +28,12 @@
   --background: #181818;
   --backgrond-secondary: #181818;
   --text: #e0e0e0;
-  --primary: #1a73e8;
-  --secondary: #fbbc05;
+  --primary: #4a90e2; /* Updated */
+  --secondary: #ffb000; /* Updated */
   --header-background: #2b2b2b;
-  --product-background: #156b15;
-  --discount-background: #f35353;
-  --rating-backgorund: #e6d32d;
+  --product-background: #1c7c1c; /* Updated */
+  --discount-background: #d04545; /* Updated */
+  --rating-backgorund: #ffc107; /* Updated */
   --sellers-background: #4b5563;
   --scrollbar-track: #2c2c2c;
   --scrollbar-thumb: #555;
@@ -203,4 +203,27 @@ button
   border-radius: 50%; /* Creates a ring shape */
   background-color: white; /* Background color of the active page */
   color: #000; /* Text color */
+}
+
+span.p-dropdown-label.p-inputtext.p-placeholder {
+  color: var(--text);
+  font-size: 12px;
+}
+span.p-dropdown-label.p-inputtext {
+  color: var(--text);
+  font-size: 12px;
+}
+
+.p-dropdown-item {
+  color: var(--text);
+  font-size: 12px;
+  background-color: var(--background);
+}
+
+.p-dropdown-item:hover {
+  background-color: var(--header-background);
+}
+
+.custom-inputswitch.p-highlight .p-inputswitch-slider {
+  background-color: var(--primary);
 }
