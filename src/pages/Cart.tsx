@@ -29,7 +29,7 @@ function Cart() {
         {cartItems.map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between rounded-lg bg-background p-4 shadow-lg"
+            className="flex items-center justify-between rounded-lg bg-background bg-header-background p-4 shadow-lg transition duration-300 ease-in-out hover:shadow-xl"
           >
             <div className="flex items-center gap-4">
               <img
@@ -46,14 +46,16 @@ function Cart() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="flex items-center rounded-lg bg-gray-200 px-2">
+              <div className="flex items-center rounded-lg bg-gray-400 p-1 dark:bg-gray-300">
                 <button
                   className="p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
                   onClick={() => decrementQuantity(item.id)}
                 >
                   <FaMinus />
                 </button>
-                <span className="mx-2 w-8 text-center">{item.quantity}</span>
+                <span className="mx-2 w-8 text-center text-black">
+                  {item.quantity}
+                </span>
                 <button
                   className="p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
                   onClick={() => incrementQuantity(item.id)}
@@ -63,7 +65,7 @@ function Cart() {
               </div>
 
               <button
-                className="flex items-center rounded-lg bg-red-500 px-4 py-2 text-white shadow-lg transition duration-300 hover:bg-red-600 focus:outline-none"
+                className="flex items-center rounded-lg bg-red-600 px-4 py-2 text-white shadow-lg transition duration-300 hover:bg-red-700 focus:outline-none"
                 onClick={() => removeFromCart(item.id)}
               >
                 <FaTrash className="mr-2" /> Remove
@@ -74,9 +76,9 @@ function Cart() {
       </div>
 
       <div className="mt-6 flex justify-between text-2xl font-semibold text-text">
-        <p> Total Price: ${totalPrice.toFixed(2)}</p>
+        <p>Total Price: ${totalPrice.toFixed(2)}</p>
         <button
-          className="rounded-lg bg-yellow-500 px-4 py-2 text-white shadow-lg transition duration-300 hover:bg-yellow-600 focus:outline-none"
+          className="rounded-lg bg-secondary px-4 py-2 text-white shadow-lg transition duration-300 hover:bg-yellow-600 focus:outline-none"
           onClick={handleOrderClick}
         >
           Order!

@@ -80,7 +80,7 @@ function FinalOrder() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-background p-8 text-text">
       <h1 className="mb-6 text-center text-4xl font-bold">
         Order Confirmation
       </h1>
@@ -98,7 +98,7 @@ function FinalOrder() {
           {products?.map((product: CartItem) => (
             <li
               key={product.id}
-              className="flex rounded-lg border bg-white p-4 shadow"
+              className="flex rounded-lg border bg-white p-4 shadow dark:bg-gray-800"
             >
               <img
                 src={product.thumbnail}

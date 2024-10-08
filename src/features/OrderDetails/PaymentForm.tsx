@@ -33,74 +33,67 @@ function PaymentForm({ totalPrice, onClose, onSubmit }: PaymentFormProps) {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         ref={modalRef}
-        className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg"
+        className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800"
       >
         <form onSubmit={handlePaymentSubmit}>
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-lg font-medium text-gray-700">
+              <label className="block text-lg font-medium text-gray-700 dark:text-gray-300">
                 Card Number:
               </label>
               <input
                 type="text"
                 value={cardNumber}
                 onChange={(e) => setCardNumber(e.target.value)}
-                className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="1234 5678 9012 3456"
+                className="mt-1 w-full rounded-lg border-gray-300 p-3 text-black focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 required
               />
             </div>
-
             <div>
-              <label className="block text-lg font-medium text-gray-700">
-                Expiry Date:
+              <label className="block text-lg font-medium text-gray-700 dark:text-gray-300">
+                Expiry Date (MM/YY):
               </label>
               <input
                 type="text"
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
-                className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="MM/YY"
+                className="mt-1 w-full rounded-lg border-gray-300 p-3 text-black focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 required
               />
             </div>
-
             <div>
-              <label className="block text-lg font-medium text-gray-700">
+              <label className="block text-lg font-medium text-gray-700 dark:text-gray-300">
                 Name on Card:
               </label>
               <input
                 type="text"
                 value={nameOnCard}
                 onChange={(e) => setNameOnCard(e.target.value)}
-                className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="John Doe"
+                className="mt-1 w-full rounded-lg border-gray-300 p-3 text-black focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 required
               />
             </div>
-
             <div>
-              <label className="block text-lg font-medium text-gray-700">
+              <label className="block text-lg font-medium text-gray-700 dark:text-gray-300">
                 CVV:
               </label>
               <input
                 type="text"
                 value={cvv}
                 onChange={(e) => setCvv(e.target.value)}
-                className="mt-1 w-full rounded-lg border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="123"
+                className="mt-1 w-full rounded-lg border-gray-300 p-3 text-black focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 required
               />
             </div>
+            <div className="flex justify-between">
+              <span className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                Total: ${totalPrice.toFixed(2)}
+              </span>
+            </div>
           </div>
-
-          <div className="mt-6 text-lg font-semibold">
-            Total Price: ${totalPrice.toFixed(2)}
-          </div>
-
           <button
             type="submit"
-            className="mt-4 w-full rounded-lg bg-green-500 px-6 py-3 text-lg font-medium text-white shadow-md transition duration-300 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+            className="mt-4 w-full rounded-lg bg-primary px-6 py-3 text-xl font-medium text-white shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
           >
             Confirm Payment
           </button>
