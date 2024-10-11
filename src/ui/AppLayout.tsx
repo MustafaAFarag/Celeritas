@@ -8,7 +8,9 @@ function AppLayout() {
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1 bg-background p-8 text-text md:p-12">
-        <Outlet />
+        <div className="z-10">
+          <Outlet />
+        </div>
       </main>
       <CartBanner />
       <Footer />

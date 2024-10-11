@@ -5,7 +5,7 @@ function Logo() {
   return (
     <h1 className="text-2xl font-extrabold tracking-tight">
       <Link to="/" className="text-primary">
-        Schnell Korb
+        QuickCart
       </Link>
     </h1>
   );
