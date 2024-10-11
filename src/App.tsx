@@ -52,7 +52,7 @@ function App() {
         </CartProvider>
       </AuthProvider>
       <Toaster
-        position="top-center"
+        position="top-left"
         gutter={12}
         containerStyle={{ margin: '8px' }}
         toastOptions={{
@@ -73,9 +73,9 @@ function App() {
             },
           },
           style: {
-            fontSize: '16px',
+            fontSize: '13px',
             maxWidth: '500px',
-            padding: '16px 24px',
+            padding: '12px 16px',
           },
         }}
       />

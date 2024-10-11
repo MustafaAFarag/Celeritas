@@ -12,7 +12,7 @@ function DiscountProducts({ products }: DiscountProductsProps) {
       products={products}
       title="Discounts Over 15%"
       Icon={FaTag}
-      iconColor="text-red-600"
+      iconColor="text-red-600 dark:text-red-900"
       filterProducts={(products) =>
         products.filter((product) => product.discountPercentage > 18)
       }

@@ -12,7 +12,7 @@ function RatedProduct({ products }: RatedProductProps) {
       products={products}
       title="Rating Above 3.5"
       Icon={FaStar}
-      iconColor="text-yellow-500"
+      iconColor="text-yellow-600 dark:text-yellow-800"
       filterProducts={(products) =>
         products.filter((product) => product.rating > 4)
       }
