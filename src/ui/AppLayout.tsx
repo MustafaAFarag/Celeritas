@@ -6,7 +6,9 @@ import CartBanner from './CartBanner';
 function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <Header />
+      <header className="relative z-50">
+        <Header />
+      </header>
       <main className="flex-1 bg-background p-8 text-text md:p-12">
         <div className="z-10">
           <Outlet />

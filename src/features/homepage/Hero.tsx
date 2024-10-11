@@ -25,7 +25,7 @@ function Hero() {
       <div className="absolute inset-0 !z-10 bg-black opacity-50" />
       <div className="relative z-10 text-center">
         <h1 className="mb-4 text-5xl font-bold shadow-lg">
-          Welcome to Schnell Korb
+          Welcome to QuickCart
         </h1>
         <p className="text-lg">
           Discover the best deals on high-quality products. Shop now and enjoy
