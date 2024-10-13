@@ -21,6 +21,7 @@ function AppLayout() {
         animate="visible"
         variants={searchBarVariants}
         transition={{ duration: 0.5 }}
+        className="relative z-10"
       >
         <SearchBar />
       </motion.div>
