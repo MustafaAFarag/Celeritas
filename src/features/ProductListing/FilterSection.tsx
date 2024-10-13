@@ -102,12 +102,19 @@ function FilterSection({
             type="number"
             min={0}
             max={inputFilters.priceRange[1]}
-            value={inputFilters.priceRange[0]}
+            value={
+              inputFilters.priceRange[0] === 0 ? '' : inputFilters.priceRange[0]
+            }
             onChange={(e) => {
-              const value = Math.max(
-                0,
-                Math.min(inputFilters.priceRange[1], Number(e.target.value)),
-              );
+              let value = Number(e.target.value);
+
+              if (e.target.value.startsWith('0') && e.target.value.length > 1) {
+                value = Number(e.target.value.replace(/^0+/, ''));
+              }
+
+              // Ensure the value stays within the valid range
+              value = Math.max(0, Math.min(inputFilters.priceRange[1], value));
+
               handlePriceChange([value, inputFilters.priceRange[1]]);
             }}
             className="w-28 rounded-md border border-gray-300 bg-background p-2 text-lg text-text shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
@@ -118,9 +125,15 @@ function FilterSection({
             max={40000}
             value={inputFilters.priceRange[1]}
             onChange={(e) => {
-              const value = Math.max(
+              let value = Number(e.target.value);
+
+              if (e.target.value.startsWith('0') && e.target.value.length > 1) {
+                value = Number(e.target.value.replace(/^0+/, ''));
+              }
+
+              value = Math.max(
                 inputFilters.priceRange[0] + 1,
-                Math.min(40000, Number(e.target.value)),
+                Math.min(40000, value),
               );
               handlePriceChange([inputFilters.priceRange[0], value]);
             }}
