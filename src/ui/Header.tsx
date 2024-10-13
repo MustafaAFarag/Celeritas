@@ -7,7 +7,7 @@ import NavBar from '../features/header/Navbar';
 import ThemeToggle from '../features/header/ThemeToggle';
 import CartIcon from '../features/header/CartIcon';
 import UserIconComponent from '../features/header/UserIconComponent';
-import SearchBar from '../features/header/SearchBar';
+// import SearchBar from '../features/header/SearchBar';
 import { logout } from '../services/apiAuth';
 import { useAuth } from '../context/AuthContext';
 
@@ -66,11 +66,6 @@ function Header() {
     visible: { opacity: 1, y: 0 },
   };
 
-  const searchBarVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <>
       <motion.nav
@@ -116,15 +111,6 @@ function Header() {
           </div>
         </div>
       </motion.nav>
-
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={searchBarVariants}
-        transition={{ duration: 0.5 }}
-      >
-        <SearchBar />
-      </motion.div>
     </>
   );
 }
