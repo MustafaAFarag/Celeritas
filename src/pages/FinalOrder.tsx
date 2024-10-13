@@ -115,7 +115,9 @@ function FinalOrder() {
         </ul>
       </div>
 
-      <p className="mt-8 text-lg font-semibold">Total Price: ${totalPrice}</p>
+      <p className="mt-8 text-lg font-semibold">
+        Total Price: ${totalPrice.toFixed(2)}
+      </p>
       <p className="mt-4 text-lg font-semibold">
         Priority Order: {isPriority ? 'Yes (+$25)' : 'No'}
       </p>
