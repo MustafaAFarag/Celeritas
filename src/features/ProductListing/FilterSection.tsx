@@ -1,9 +1,9 @@
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
+import { useState, useEffect } from 'react';
 import { type FilterState } from './filterTypes';
 import { type Product } from '../../services/apiProducts';
-import { useState, useEffect } from 'react';
 import { getBrandOptions, getCategoryOptions } from './filterUtils';
 
 interface FilterSectionProps {
@@ -40,9 +40,36 @@ function FilterSection({
   };
 
   const handlePriceChange = (value: [number, number]) => {
+    const [newMin, newMax] = value;
+    const currentMin = inputFilters.priceRange[0];
+    const currentMax = inputFilters.priceRange[1];
+
+    let adjustedMin = newMin;
+    let adjustedMax = newMax;
+
+    // Ensure minimum price is at least $50 less than maximum
+    if (newMin > newMax - 50) {
+      adjustedMin = newMax - 50;
+    }
+
+    // Ensure maximum price is at least $50 more than minimum
+    if (newMax < newMin + 50) {
+      adjustedMax = newMin + 50;
+    }
+
+    // If min changed, adjust max if necessary
+    if (newMin !== currentMin && adjustedMax !== currentMax) {
+      adjustedMax = Math.min(40000, Math.max(adjustedMin + 50, currentMax));
+    }
+
+    // If max changed, adjust min if necessary
+    if (newMax !== currentMax && adjustedMin !== currentMin) {
+      adjustedMin = Math.max(0, Math.min(adjustedMax - 50, currentMin));
+    }
+
     setInputFilters((prev) => ({
       ...prev,
-      priceRange: value,
+      priceRange: [adjustedMin, adjustedMax],
     }));
   };
 
@@ -95,51 +122,8 @@ function FilterSection({
           range
           min={0}
           max={40000}
+          step={1}
         />
-
-        <div className="mt-2 flex gap-4">
-          <input
-            type="number"
-            min={0}
-            max={inputFilters.priceRange[1]}
-            value={
-              inputFilters.priceRange[0] === 0 ? '' : inputFilters.priceRange[0]
-            }
-            onChange={(e) => {
-              let value = Number(e.target.value);
-
-              if (e.target.value.startsWith('0') && e.target.value.length > 1) {
-                value = Number(e.target.value.replace(/^0+/, ''));
-              }
-
-              // Ensure the value stays within the valid range
-              value = Math.max(0, Math.min(inputFilters.priceRange[1], value));
-
-              handlePriceChange([value, inputFilters.priceRange[1]]);
-            }}
-            className="w-28 rounded-md border border-gray-300 bg-background p-2 text-lg text-text shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
-          />
-          <input
-            type="number"
-            min={inputFilters.priceRange[0] + 1}
-            max={40000}
-            value={inputFilters.priceRange[1]}
-            onChange={(e) => {
-              let value = Number(e.target.value);
-
-              if (e.target.value.startsWith('0') && e.target.value.length > 1) {
-                value = Number(e.target.value.replace(/^0+/, ''));
-              }
-
-              value = Math.max(
-                inputFilters.priceRange[0] + 1,
-                Math.min(40000, value),
-              );
-              handlePriceChange([inputFilters.priceRange[0], value]);
-            }}
-            className="w-28 rounded-md border border-gray-300 bg-background p-2 text-lg text-text shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring focus:ring-primary"
-          />
-        </div>
       </div>
 
       <button
